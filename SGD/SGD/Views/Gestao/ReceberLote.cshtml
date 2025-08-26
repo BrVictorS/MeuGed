@@ -1,0 +1,79 @@
+﻿@model ICollection<LoteModel>
+
+<h1>Receber Lote</h1>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Lote</th>
+                <th scope="col">Projeto</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Editar</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lote in Model)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@lote.NumLote</td>
+                    <td>@lote.Projeto.Nome</td>
+                    <td>@lote.Observacao</td>
+                    <td><button class="btn btn-primary" onclick="carregarModal(@lote.Id)">Editar</button></td>
+                </tr>
+            }         
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" onclick="carregarModal()">Novo Lote</button>
+</div>
+
+<div class="modal fade" id="modalAjax" tabindex="-1" aria-labelledby="modalAjaxLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- O conteúdo será carregado aqui -->
+            <div id="modalAjaxContent">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+    function carregarModal(id) {
+        // Mostra o modal com "Carregando..."
+        var modal = new bootstrap.Modal(document.getElementById('modalAjax'));
+        modal.show();
+
+        // Requisição AJAX para buscar o conteúdo do modal
+        $.get('/Lote/Editar', { id: id }, function (data) {
+            $('#modalAjaxContent').html(data);
+        }).fail(function () {
+            $('#modalAjaxContent').html('<div class="modal-body text-danger">Erro ao carregar dados.</div>');
+        });
+    }
+
+    function carregarModal() {
+        // Mostra o modal com "Carregando..."
+        var modal = new bootstrap.Modal(document.getElementById('modalAjax'));
+        modal.show();
+
+        // Requisição AJAX para buscar o conteúdo do modal
+        $.get('/Gestao/NovoLote', function (data) {
+            $('#modalAjaxContent').html(data);
+        }).fail(function () {
+            $('#modalAjaxContent').html('<div class="modal-body text-danger">Erro ao carregar dados.</div>');
+        });
+    }
+</script>

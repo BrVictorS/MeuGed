@@ -1,0 +1,23 @@
+﻿@model IEnumerable<UsuarioModel>
+
+<div class="container mt-5">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td>@usuario.Nome</td>
+                    <td>@usuario.Email</td>
+                    <td><a asp-controller="Usuario" asp-action="Editar" asp-route-id="@usuario.Id" class="btn-info btn"><i class="bi bi-pencil"></i>Editar</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

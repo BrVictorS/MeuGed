@@ -1,0 +1,102 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Downloads\\MeuSGD\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|e:\\downloads\\meusgd\\meusgd\\controllers\\preparocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|solutionrelative:meusgd\\controllers\\preparocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|e:\\downloads\\meusgd\\meusgd\\controllers\\scancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|solutionrelative:meusgd\\controllers\\scancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|e:\\downloads\\meusgd\\meusgd\\services\\fluxo\\ifluxointerface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|solutionrelative:meusgd\\services\\fluxo\\ifluxointerface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|e:\\downloads\\meusgd\\meusgd\\services\\fluxo\\fluxoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|solutionrelative:meusgd\\services\\fluxo\\fluxoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|e:\\downloads\\meusgd\\meusgd\\services\\arquivo\\arquivoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F765E72-1C15-4EFE-92B6-E5D99029602C}|MeuSGD\\MeuSGD.csproj|solutionrelative:meusgd\\services\\arquivo\\arquivoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 235,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PreparoController.cs",
+              "DocumentMoniker": "E:\\Downloads\\MeuSGD\\MeuSGD\\Controllers\\PreparoController.cs",
+              "RelativeDocumentMoniker": "MeuSGD\\Controllers\\PreparoController.cs",
+              "ToolTip": "E:\\Downloads\\MeuSGD\\MeuSGD\\Controllers\\PreparoController.cs",
+              "RelativeToolTip": "MeuSGD\\Controllers\\PreparoController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAuwDcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T17:32:41.776Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IFluxoInterface.cs",
+              "DocumentMoniker": "E:\\Downloads\\MeuSGD\\MeuSGD\\Services\\Fluxo\\IFluxoInterface.cs",
+              "RelativeDocumentMoniker": "MeuSGD\\Services\\Fluxo\\IFluxoInterface.cs",
+              "ToolTip": "E:\\Downloads\\MeuSGD\\MeuSGD\\Services\\Fluxo\\IFluxoInterface.cs",
+              "RelativeToolTip": "MeuSGD\\Services\\Fluxo\\IFluxoInterface.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:13:12.549Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FluxoService.cs",
+              "DocumentMoniker": "E:\\Downloads\\MeuSGD\\MeuSGD\\Services\\Fluxo\\FluxoService.cs",
+              "RelativeDocumentMoniker": "MeuSGD\\Services\\Fluxo\\FluxoService.cs",
+              "ToolTip": "E:\\Downloads\\MeuSGD\\MeuSGD\\Services\\Fluxo\\FluxoService.cs",
+              "RelativeToolTip": "MeuSGD\\Services\\Fluxo\\FluxoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:11:58.364Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ScanController.cs",
+              "DocumentMoniker": "E:\\Downloads\\MeuSGD\\MeuSGD\\Controllers\\ScanController.cs",
+              "RelativeDocumentMoniker": "MeuSGD\\Controllers\\ScanController.cs",
+              "ToolTip": "E:\\Downloads\\MeuSGD\\MeuSGD\\Controllers\\ScanController.cs",
+              "RelativeToolTip": "MeuSGD\\Controllers\\ScanController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwBcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:06:09.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ArquivoService.cs",
+              "DocumentMoniker": "E:\\Downloads\\MeuSGD\\MeuSGD\\Services\\Arquivo\\ArquivoService.cs",
+              "RelativeDocumentMoniker": "MeuSGD\\Services\\Arquivo\\ArquivoService.cs",
+              "ToolTip": "E:\\Downloads\\MeuSGD\\MeuSGD\\Services\\Arquivo\\ArquivoService.cs",
+              "RelativeToolTip": "MeuSGD\\Services\\Arquivo\\ArquivoService.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:06:50.23Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

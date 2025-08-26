@@ -1,0 +1,43 @@
+﻿@model ICollection<ProjetoModel>
+
+<div class="btn-group" style="padding-bottom:10px">
+    <button id="btnprojeto" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Projeto
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        @foreach (var projeto in Model)
+        {
+            <li><a class="dropdown-item" data-id="@projeto.Id" onclick="selecionarProjeto()">@projeto.Nome</a></li>
+        }
+    </ul>
+</div>
+
+<script>
+    function selecionarProjeto() {
+        var textoSelecionado = event.target.innerText;
+        var projetoSelecionado = event.target.dataset.id
+        var botao = document.getElementById('btnprojeto');                
+        botao.innerText = textoSelecionado;        
+
+        fetch('/Home/DefineProjeto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(projetoSelecionado)
+        })
+            .then(response => {
+                if (response.redirected) {
+                    // Redireciona o navegador manualmente
+                    window.location.href = response.url;
+                } else {
+                    return response.text();
+                }
+            })
+            .then(data => {
+                console.log("Resposta:", data);
+            })
+            .catch(error => console.error('Erro:', error));
+    }
+    
+
+
+</script>

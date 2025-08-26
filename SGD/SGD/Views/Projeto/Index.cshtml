@@ -1,0 +1,232 @@
+﻿@model IEnumerable<ProjetoModel>
+<body>        
+    <div class="container mt-5" style="align-content:end">
+        <!-- Botão para abrir o modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            Novo Objeto
+        </button>
+        <!-- Modal Bootstrap -->
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Criar Novo Objeto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulário para o objeto -->
+                        <form id="createForm">
+                            <div class="mb-3">
+                                <label for="objectName" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nomeProjeto" name="Nome" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="saveButton" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal editar projeto-->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Editar Projeto</h5>
+                        <button type="button" 
+                            class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    </div>
+                    <form id="editForm">
+                    <div class="modal-body">
+                        
+                            <input type="hidden" id="editProjetoId"> <!-- ID oculto -->
+                            <div class="mb-3">
+                                <label for="editNomeProjeto" class="form-label">Nome do Projeto</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="editNomeProjeto"
+                                       name="Nome"
+                                       required>
+                            </div>
+                        
+                    </div>
+                    <div class="modal-body2">
+                            <table class="table table-hover" id="UsuariosProjetos">
+                            <thead>
+                                <tr>                                         
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Alocado</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="saveEditButton" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Projeto</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @foreach (var projeto in Model)
+                {
+                    <tr>
+                        <td>@projeto.Id</td>
+                        <td>@projeto.Nome</td>                        
+                        <td>
+                            <button
+                                    itemid="btn-edit"
+                                    class="btn btn-primary btn-edit"
+                                    data-id="@projeto.Id"
+                                    data-nome="@projeto.Nome"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal">
+                                Editar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>    
+    $(document).ready(function () {
+
+
+        $("#saveButton").click(function () {
+            // Captura o valor do campo de texto
+            let projeto = {
+                Nome: $("#nomeProjeto").val(), // O nome deve corresponder ao campo do modelo
+                Usuarios: [],
+                Lote: []
+            };
+            
+
+            // Enviar os dados via AJAX
+            $.ajax({
+                url: "/Projeto/Cadastrar", // Ajuste a rota conforme necessário
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(projeto),
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        // Fechar o modal
+                        $("#createModal").modal('hide');
+                        // Recarregar a lista ou atualizar dinamicamente
+                        location.reload();
+                    } else {
+                        console.log(response.errors); // Exibe os erros no console
+                        alert("Erro ao cadastrar: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("Erro ao salvar o projeto.");
+                }
+            });
+        });
+
+
+        
+   
+        $(".btn-edit").click(function () {
+            const id = $(this).data("id");
+            const nome = $(this).data("nome");            
+
+            // Preencher os campos do modal
+            $("#editProjetoId").val(id);
+            $("#editNomeProjeto").val(nome);
+
+            // Fazer uma requisição AJAX para buscar usuários do projeto
+            $.ajax({
+                url: `/Projeto/ListarUsuarios/${id}`,
+                type: "GET",
+                success: function (usuarios) {
+                    let tabelaUsuarios = "";
+                    usuarios.forEach(usuario => {
+                        if (usuario.alocadoProjeto === true) {
+                            tabelaUsuarios += `<tr>
+                                                    <td style="display: none;" name="idusuario">${usuario.id}</td>
+                                                    <td>${usuario.nome}</td>
+                                                    <td>
+                                                            <input type="checkbox" name="atribuido" checked>
+                                                    </td>
+                                                </tr>`;
+                        } else {
+                            tabelaUsuarios += `<tr>
+                                                    <td style="display: none;" name="idusuario">${usuario.id}</td>
+                                                    <td>${usuario.nome}</td>
+                                                            <td> <input type="checkbox" name="atribuido" ></td>
+                                                    </tr>`;
+                        }
+                            
+                    });
+                    $("#UsuariosProjetos").html(tabelaUsuarios);
+                },
+                error: function () {
+                    alert("Erro ao carregar usuários.");
+                }
+            });
+        });
+
+        $("#saveEditButton").click(function () {
+            const formData = {
+                Id: $("#editProjetoId").val(),
+                Nome: $("#editNomeProjeto").val(),
+                UsuariosProjetos : []
+            };
+            
+
+            $("#UsuariosProjetos tr").each(function () {
+                const usuarioId = $(this).find("td[name='idusuario']").text().trim(); // Obtém o ID do usuário
+                const alocado = $(this).find("input[name='atribuido']").prop("checked"); // Verifica se o checkbox está marcado
+
+                if (alocado) {
+                    formData.UsuariosProjetos.push({
+                        UsuarioId: usuarioId,
+                        ProjetoId: formData.Id
+                    });
+                }
+            });
+
+
+            $.ajax({
+                url: "/Projeto/Editar", // Ajuste a rota conforme necessário
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        $("#editModal").modal("hide");
+                        location.reload(); // Atualiza a tabela
+                    } else {
+                        alert("Erro ao salvar: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("Erro ao salvar o projeto.");
+                }
+            });
+        });        
+    });
+</script>

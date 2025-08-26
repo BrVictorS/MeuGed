@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\user\source\repos\GedDb\GedDb\bin\Release\net8.0\publish\</_PublishTargetUrl>
+    <History>True|2025-08-04T23:45:59.0013061Z||;True|2025-08-04T20:43:04.7620527-03:00||;True|2025-08-04T20:30:21.2885682-03:00||;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DbConnection">
+      <Value>mongodb://localhost:27017/sgd</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

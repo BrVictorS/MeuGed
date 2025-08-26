@@ -1,0 +1,70 @@
+﻿@model SGD.Models.ViewModels.NovoLoteViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title">Editar Lote</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+    <form method="post" action="SalvarNovoLote">
+        <input  name="idProjeto" id="idProjeto" />
+        <input type="hidden" name="Id" value="@Model.novoLote.Id" />
+
+        <div class="btn-group" style="padding-bottom:10px">
+            <button id="btnprojeto" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Projeto
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                @foreach (var projeto in Model.projetos)
+                {
+                    <li><a class="dropdown-item" data-id="@projeto.Id" onclick="selecionarItem()">@projeto.Nome</a></li>
+                }
+            </ul>
+        </div>
+        <div class="mb-3">            
+            <label class="form-label">Número do Lote</label>
+            <input type="text" name="NumLote" class="form-control" value="@Model.novoLote.NumLote" />
+            
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Observação</label>
+            <textarea name="Observacao" class="form-control">@Model.novoLote.Observacao</textarea>
+
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </form>
+</div>
+
+<style>
+    .btn-group{
+        width:200px
+    }
+
+</style>
+
+<script>
+    function selecionarItem() {
+        var textoSelecionado = event.target.innerText;
+        var projetoSelecionado = event.target.dataset.id
+        var botao = document.getElementById('btnprojeto');
+        var inpt = document.getElementsByName('NumLote')[0]; // pega o primeiro input com esse name
+        var idProjetoInput = document.getElementById('idProjeto'); // pega o input hidden
+
+        botao.innerText = textoSelecionado;
+        botao.classList.add('dropdown-toggle'); // opcional: mantém seta
+        idProjetoInput.value = projetoSelecionado; // define o valor do campo idProjeto
+
+        // Chama o endpoint com interpolação correta
+        fetch(`/Gestao/GetUltimoLoteProjeto?id=${projetoSelecionado}`)
+            .then(res => res.text()) // sua action retorna string
+            .then(data => {
+                inpt.value = data; // define o valor do input
+                console.log("Último lote:", data);
+            })
+            .catch(err => {
+                console.error('Erro ao buscar lote:', err);
+            });
+    }
+</script>

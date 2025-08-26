@@ -1,0 +1,6 @@
+@GedDb_HostAddress = http://localhost:5155
+
+GET {{GedDb_HostAddress}}//
+Accept: application/json
+
+###

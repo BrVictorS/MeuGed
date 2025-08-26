@@ -1,0 +1,147 @@
+﻿@using SGD.Dtos.TipoDocumento
+@model TipoDocumentoDto
+
+<div class="container-fluid">    
+    <form method="post" asp-controller="TipoDocumento" asp-action=@(Model.Id >0 ? "Editar" : "Novo")>
+        <div class="container">
+            <!-- Title section -->            
+            <div class="content">
+                <!-- Registration form -->
+                    <h2>Tipo documental</h2>
+                    <div class="mb-1">
+                    <input type="hidden" asp-for="Id" />
+                        <label class="form-label">Titulo:</label>
+                        <input type="text" asp-for="Name" class="form-control shadow-none">
+                        <span class="text-danger" hidden id="validaNome">Descrição deve ser preenchida!</span>                       
+                    </div>
+                    <div class="mb-1">
+                        <a>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Novo Metadado</button>
+                        </a>
+                    </div>
+                  
+                    <div class="mb-1">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Selecionar</th>
+                                    <th scope="col">Metadado</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.metadadosDocumentos != null)
+                                {
+                                @foreach (var tipo in Model.metadadosDocumentos)
+                                    {
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        @if(tipo.Selecionado == 0){
+                                            <td>
+                                                <input type="checkbox" name="MetadadosSelecionados" value="@tipo.Id" />
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <input type="checkbox" name="MetadadosSelecionados" checked value="@tipo.Id" />
+                                            </td>
+                                        }
+                                        <td>@tipo.Nome</td>
+                                            <td>
+                                                <a >
+                                                    <button type="button" class="btn btn-warning">Editar</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a>
+                                                    <button type="button" class="btn btn-danger">Excluir</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                }
+                        </table>
+                    </div>
+
+
+                    <div class="btn-box d-flex mt-3">
+                    <button type="submit" id="btnSalvar" class="btn btn-success w-50 mx-1"><i class="bi bi-plus-circle"></i> Salvar</button>
+                        <a type="submit" class="btn btn-info w-50" asp-controller="TipoDocumento" asp-action="Index"><i class="bi bi-arrow-left-circle"></i> Voltar</a>
+                    </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Novo Metadado</h1>                        
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control shadow-none" placeholder="Nome do metadado" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="salvarMetadado()">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function salvarMetadado() {
+        var nome = document.querySelector('#exampleModal input').value;
+
+        fetch('/TipoDocumento/NovoMetadado', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(nome) // Envia como string pura, pois o controller recebe string
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.sucesso) {
+                    // Atualiza a tabela sem recarregar
+                    var tbody = document.querySelector('table tbody');
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>#</td>
+                    <td><input type="checkbox" name="MetadadosSelecionados" value="${data.metadado.id}" /></td>
+                    <td>${data.metadado.name}</td>
+                    <td><button type="button" class="btn btn-warning">Editar</button></td>
+                    <td><button type="button" class="btn btn-danger">Excluir</button></td>
+                `;
+                    tbody.appendChild(tr);
+
+                    // Fecha o modal
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+                    modal.hide();
+
+                    // Limpa o campo
+                    document.querySelector('#exampleModal input').value = '';
+                }
+            });
+    };
+
+
+        document.querySelector("form").addEventListener("submit", function (e) {
+        var nome = document.querySelector('input[name="Name"]').value;
+        var spanErro = document.getElementById("validaNome");
+
+        if (!nome.trim()) {
+            e.preventDefault(); // não envia
+            spanErro.hidden = false; // mostra mensagem
+        } else {
+            spanErro.hidden = true; // esconde mensagem
+        }
+    });
+
+</script>

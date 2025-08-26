@@ -1,0 +1,136 @@
+﻿@using SGD.Dtos.Usuarios
+@model UsuarioEditarDto
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Editar Usuário</h2>
+    <form asp-controller="Usuario" asp-action="Editar" method="post">
+        <!-- Informações Básicas -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome</label>
+                <input id="nome"
+                       class="form-control"
+                       type="text"
+                       name="Nome"
+                       value="@Model.Nome"
+                       placeholder="Digite o nome">
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input id="email"
+                       class="form-control"
+                       type="email"
+                       name="Email"
+                       value="@Model.Email"
+                       placeholder="Digite o email">
+            </div>
+        </div>
+
+        <!-- Permissões do Usuário -->
+        <div class="card mb-4" style="width:900px">
+            <div class="card-header">
+                <h5 class="mb-0">Permissões do Usuário</h5>
+            </div>
+            <div class="container d-flex justify-content-between">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Permissão</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.UsuarioPermissoes != null)
+                            {
+                                foreach (var permissao in Model.UsuarioPermissoes)
+                                {
+                                    <tr>
+                                        <td>@permissao.Name</td>
+                                        <td>
+                                            <a
+                                               class="btn btn-outline-warning remove-btn" 
+                                               data-id="@permissao.Id">
+                                               Adicionar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-body">
+                    <table class="table" id="tblSemPermissao">
+                        <thead>
+                            <tr>
+                                <th>Permissão</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var permissao in ViewBag.Permissoes)
+                            {
+                                <tr>
+                                    <td>@permissao.Name</td>
+                                    <td>
+                                        <a href="#" class="btn btn-outline-success add-btn" data-id="@permissao.Id">Remover</a>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="d-flex justify-content-end">            
+            <a asp-action="Index" asp-controller="Usuario" class="btn btn-secondary ms-2">
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-success ms-2">
+                Salvar
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Remover permissão (mover da tabela com permissão para sem permissão)
+        $(document).on("click", ".remove-btn", function () {
+            var linha = $(this).closest("tr");
+
+            // Atualiza botão para "Adicionar"
+            $(this)
+                .removeClass("remove-btn btn-outline-warning")
+                .addClass("add-btn btn-outline-success")
+                .text("Adicionar");
+
+            // Move a linha para a tabela de permissões disponíveis
+            $("#tblSemPermissao tbody").append(linha);
+        });
+
+        // Adicionar permissão de volta
+        $(document).on("click", ".add-btn", function () {
+            var linha = $(this).closest("tr");
+
+            // Atualiza botão para "Remover"
+            $(this)
+                .removeClass("add-btn btn-outline-success")
+                .addClass("remove-btn btn-outline-warning")
+                .text("Remover");
+
+            // Move a linha de volta para a tabela original
+            $(".table tbody").first().append(linha); // primeira tbody = com permissão
+        });
+    });
+</script>

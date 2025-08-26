@@ -1,0 +1,193 @@
+﻿@model SGD.Models.ViewModels.PreparoViewModel
+
+<div class="container-box">
+    <!-- Linha com Lote e Usuário -->
+    <div class="form-row">
+        <!-- Campo Lote -->
+        <div class="form-group">
+            <label for="idlote" class="form-label">Lote</label>
+            <input type="text" class="form-control" id="idlote" />
+        </div>
+
+        <!-- Campo Usuário (dropdown) -->
+        <div class="form-group">
+            <label class="form-label">Usuário</label>
+            <div class="dropdown">
+                <button id="btndrop"class ="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Selecionar usuário
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach (var usuario in Model.Usuarios)
+                    {
+                        <li><a class="dropdown-item" data-id="@usuario.Id" onclick="slusu()" href="#">@usuario.Nome</a></li>
+                    }                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botões -->
+    <form id="formLotes" method="post" action="/Preparo/SalvarPreparo">
+        <input type="hidden" name="jsonLotes" id="jsonLotes"/>
+        <div class="btn-group-custom">
+            <button type="button" class="btn btn-primary" id="btnAdicionar">Adicionar</button>
+            <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Tabela -->
+<div class="table-container">
+    <table class="table table-hover" id="tabelaLotes">
+        <thead>
+            <tr>
+                <th scope="col">Lote</th>
+                <th scope="col">Operador</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+    </table>
+    <div class="table-body-scroll">
+        <table class="table table-hover">
+            <tbody>
+               
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<style>
+    /* Container principal */
+    .container-box {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        width: 700px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
+
+    /* Linha com campos */
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Cada grupo de label + input */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        padding: 6px 10px;
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+    }
+
+    /* Botões alinhados esquerda e direita */
+    .btn-group-custom {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .table-container {
+        max-width: 700px;
+        border: 1px solid #ccc;
+    }
+
+    .table-container thead th {
+        position: sticky;
+        top: 0;
+        background-color: #fff;
+        z-index: 2;
+    }
+
+    .table-body-scroll {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btn-danger {
+        background: none !important;
+        color: black !important;
+    }
+
+</style>
+<script>
+    function slusu() {
+        var btn = document.getElementById('btndrop');
+        var selecionado = event.target;
+        btn.innerText = selecionado.innerText;
+        btn.dataset.id = selecionado.getAttribute('data-id'); // armazena o id do usuário
+    }
+
+    document.getElementById('btnAdicionar').addEventListener('click', function () {
+        const lote = document.getElementById('idlote').value.trim();
+        const btnUsuario = document.getElementById('btndrop');
+        const nomeUsuario = btnUsuario.innerText.trim();
+        const idUsuario = btnUsuario.dataset.id;
+
+        // validações básicas
+        if (!lote || nomeUsuario === 'Selecionar usuário') {
+            alert('Preencha o lote e selecione um usuário.');
+            return;
+        }
+
+        const tbody = document.getElementById('tabelaLotes');
+
+        // cria a linha
+        const novaLinha = document.createElement('tr');
+        novaLinha.setAttribute('data-id-usuario', idUsuario); // você pode armazenar o id se quiser usar depois
+
+        novaLinha.innerHTML = `
+                <td>${lote.toString().padStart(6, '0')}</td>
+                <td>${nomeUsuario}</td>
+                <td>
+                        <button class="btn btn-danger" onclick="this.closest('tr').remove()">Remover</button>
+                </td>
+            `;
+
+        tbody.appendChild(novaLinha);
+
+        // limpa os campos
+        document.getElementById('idlote').value = '';
+        btnUsuario.innerText = 'Selecionar usuário';
+        delete btnUsuario.dataset.id;
+    });
+
+    document.getElementById('formLotes').addEventListener('submit', function (e) {
+        const linhas = document.querySelectorAll('#tabelaLotes tr');
+        const dados = [];
+
+        linhas.forEach(linha => {
+            const numeroLote = linha.cells[0].innerText;
+            const idUsuario = linha.getAttribute('data-id-usuario');
+
+            if (numeroLote && idUsuario) {
+                dados.push({
+                    NumeroLote: numeroLote,
+                    IdUsuario: parseInt(idUsuario)
+                });
+            }
+        });
+
+        // coloca o JSON no campo oculto
+        document.getElementById('jsonLotes').value = JSON.stringify(dados);
+    });
+
+</script>

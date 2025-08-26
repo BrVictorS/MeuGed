@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\GedDb\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\controllers\\lotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\controllers\\lotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\dto\\documentoupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\dto\\documentoupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\entities\\imagem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\entities\\imagem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\entities\\lote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\entities\\lote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\data\\mongodbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\data\\mongodbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|c:\\users\\user\\source\\repos\\geddb\\geddb\\enums\\situacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F04E598-96DD-4E4D-9357-CE2612BE3787}|GedDb\\GedDb.csproj|solutionrelative:geddb\\enums\\situacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 235,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DocumentoUpdateDto.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Dto\\DocumentoUpdateDto.cs",
+              "RelativeDocumentMoniker": "GedDb\\Dto\\DocumentoUpdateDto.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Dto\\DocumentoUpdateDto.cs",
+              "RelativeToolTip": "GedDb\\Dto\\DocumentoUpdateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T17:18:02.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Program.cs",
+              "RelativeDocumentMoniker": "GedDb\\Program.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Program.cs",
+              "RelativeToolTip": "GedDb\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T14:11:51.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Lote.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Entities\\Lote.cs",
+              "RelativeDocumentMoniker": "GedDb\\Entities\\Lote.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Entities\\Lote.cs",
+              "RelativeToolTip": "GedDb\\Entities\\Lote.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T13:56:37.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Imagem.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Entities\\Imagem.cs",
+              "RelativeDocumentMoniker": "GedDb\\Entities\\Imagem.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Entities\\Imagem.cs",
+              "RelativeToolTip": "GedDb\\Entities\\Imagem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T13:54:52.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoteController.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Controllers\\LoteController.cs",
+              "RelativeDocumentMoniker": "GedDb\\Controllers\\LoteController.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Controllers\\LoteController.cs*",
+              "RelativeToolTip": "GedDb\\Controllers\\LoteController.cs*",
+              "ViewState": "AgIAACYAAAAAAAAAAAAwwFAAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T13:29:06.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Situacao.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Enums\\Situacao.cs",
+              "RelativeDocumentMoniker": "GedDb\\Enums\\Situacao.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Enums\\Situacao.cs",
+              "RelativeToolTip": "GedDb\\Enums\\Situacao.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T13:19:15.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MongoDbService.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Data\\MongoDbService.cs",
+              "RelativeDocumentMoniker": "GedDb\\Data\\MongoDbService.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\GedDb\\GedDb\\Data\\MongoDbService.cs",
+              "RelativeToolTip": "GedDb\\Data\\MongoDbService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:38:52.831Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

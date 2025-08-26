@@ -1,0 +1,25 @@
+﻿@using SGD.Dtos.Processolote
+@using SGD.Dtos.Response
+@model ServiceResponse<List<SelecionarLoteDto>>;
+
+
+<table class="table table-striped table-hover">
+    <thead>
+        <th>LOTE</th>
+        <th></th>
+    </thead>
+    <tbody>
+        @foreach (var lote in Model.Dados)
+        {
+            <tr>
+                <td>@lote.NumLote</td>
+                <td>
+                    <a asp-controller="SelecionarLote" asp-action="SelectVerify" asp-route-id="@lote.Id">
+                        <button type="button" class="btn btn-warning">Editar</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
