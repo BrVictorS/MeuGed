@@ -1203,3 +1203,4 @@ C:\Users\user\source\repos\MeuGed\SGD\SGD\obj\Debug\net6.0\refint\SGD.dll
 C:\Users\user\source\repos\MeuGed\SGD\SGD\obj\Debug\net6.0\SGD.pdb
 C:\Users\user\source\repos\MeuGed\SGD\SGD\obj\Debug\net6.0\SGD.genruntimeconfig.cache
 C:\Users\user\source\repos\MeuGed\SGD\SGD\obj\Debug\net6.0\ref\SGD.dll
+C:\Users\user\source\repos\MeuGed\SGD\SGD\obj\Debug\net6.0\SGD.sourcelink.json

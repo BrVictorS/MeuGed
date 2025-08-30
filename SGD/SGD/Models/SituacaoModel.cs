@@ -11,5 +11,6 @@ namespace SGD.Models
         public string Nome { get; set; }
         public string? Caminho { get; set; }
         public int? IdSituacaoAnterior { get; set; }
+        public int? Ordem { get; set; }
     }
 }

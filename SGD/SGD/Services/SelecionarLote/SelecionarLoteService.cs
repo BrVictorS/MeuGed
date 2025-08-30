@@ -15,31 +15,48 @@ namespace SGD.Services.SelecionarLote
             _context = context;
         }
 
-        public ServiceResponse<List<SelecionarLoteDto>> GetLotesProxFila(int id)
+       public async Task<ServiceResponse<List<SelecionarLoteDto>>> GetLotesFila(int id)
+{
+                var resp = new ServiceResponse<List<SelecionarLoteDto>>();
+                var filaAnterior = GetFilaAnterior(id);
+
+                // último FluxoLote por Lote (pela maior DtInicio)
+                var ultimosFluxos =
+                    from fl in _context.FluxoLote.AsNoTracking()
+                    group fl by fl.LoteId into g
+                    let maxIni = g.Max(x => x.DtInicio)
+                    from fl in g.Where(x => x.DtInicio == maxIni).Take(1)
+                    select fl;
+
+                var query =
+                    from l in _context.Lote.AsNoTracking()
+                    join f in ultimosFluxos on l.Id equals f.LoteId
+                    where (f.SituacaoId == id && f.DtFim == null)
+                       || (f.SituacaoId == filaAnterior && f.DtFim != null)
+                    select new SelecionarLoteDto
+                    {
+                        Id = l.Id,
+                        NumLote = l.NumLote,
+                        IdSituacao = (f.SituacaoId == filaAnterior && f.DtFim != null) ? id : f.SituacaoId
+                    };
+
+                resp.Dados = await query.ToListAsync();
+                return resp;
+            }
+
+        public int GetFilaAnterior(int id)
         {
+            var idSituacao = _context.Situacoes.ToList();
+            if (id == 5)
+            {
+                id = 4;
+            }
 
-            ServiceResponse<List<SelecionarLoteDto>> lotes = new ServiceResponse<List<SelecionarLoteDto>>();
-           // var fluxos = _context.Lote.Include(l => l.Fluxos).Where(l => l.Fluxos.OrderByDescending(f => f.Id).FirstOrDefault().SituacaoId == id);
+            int x = idSituacao.IndexOf(idSituacao.FirstOrDefault(i => i.IdSituacao == id))-1;
 
-            var lotess =  _context.Lote
-                                            .Include(x => x.Fluxos)
-                                            .Where(l => 
-                                            (l.Fluxos.OrderByDescending(f => f.Id).FirstOrDefault().Situacao.IdSituacaoAnterior == id && l.Fluxos.OrderByDescending(f => f.Id).FirstOrDefault().DtFim != null) ||
-                                            (l.Fluxos.OrderByDescending(f => f.Id).FirstOrDefault().Situacao.IdSituacao == id && l.Fluxos.OrderByDescending(f => f.Id).FirstOrDefault().DtFim == null))
-                                            
-                                            .Select(l => new SelecionarLoteDto
-                                            {
-                                                Id = l.Id,
-                                                NumLote = l.NumLote,
-                                                IdSituacao = l.Fluxos
-                                                    .OrderByDescending(f => f.Id)
-                                                    .Select(f => f.SituacaoId)
-                                                    .FirstOrDefault()
-                                            })
-                                            .ToList();            
-            lotes.Dados = lotess;
+            int nx = idSituacao[x].IdSituacao;
 
-            return lotes;
+            return nx;
         }
 
     }

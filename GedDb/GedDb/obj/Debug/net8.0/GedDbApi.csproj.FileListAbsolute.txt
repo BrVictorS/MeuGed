@@ -84,3 +84,4 @@ C:\Users\user\source\repos\MeuGed\GedDb\GedDb\obj\Debug\net8.0\refint\GedDbApi.d
 C:\Users\user\source\repos\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.pdb
 C:\Users\user\source\repos\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.genruntimeconfig.cache
 C:\Users\user\source\repos\MeuGed\GedDb\GedDb\obj\Debug\net8.0\ref\GedDbApi.dll
+C:\Users\user\source\repos\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.sourcelink.json

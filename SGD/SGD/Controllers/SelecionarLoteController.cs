@@ -21,12 +21,11 @@ namespace SGD.Controllers
             ServiceResponse<List<SelecionarLoteDto>> lotes = new ServiceResponse<List<SelecionarLoteDto>>();
             if (fila == 3)
             {
-               lotes = _selecionalote.GetLotesProxFila(3);
-               lotes.Dados.AddRange( _selecionalote.GetLotesProxFila(5).Dados);
+               var a =  _selecionalote.GetLotesFila(5).Result;
             }
             else
             {
-                lotes = _selecionalote.GetLotesProxFila(6);
+                lotes = _selecionalote.GetLotesFila(6).Result;
             }
 
             

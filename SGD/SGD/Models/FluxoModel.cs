@@ -1,13 +1,15 @@
-﻿using SGD.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using SGD.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace SGD.Models
 {
+    [Index(nameof(LoteId), nameof(SituacaoId), IsUnique = true)]
     public class FluxoModel
     {
         [Key]
-        public int Id { get; set; }   
+        public int Id { get; set; }        
         public int SituacaoId { get; set; }
         [JsonIgnore]
         public SituacaoModel Situacao { get; set; }

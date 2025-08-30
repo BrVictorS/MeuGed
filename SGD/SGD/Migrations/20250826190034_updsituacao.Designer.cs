@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SGD.Data;
 
@@ -11,9 +12,10 @@ using SGD.Data;
 namespace SGD.Migrations
 {
     [DbContext(typeof(DataDbContext))]
-    partial class DataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250826190034_updsituacao")]
+    partial class updsituacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,32 +23,6 @@ namespace SGD.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("SGD.Models.AtividadeModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Atividade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SubfuncaoModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubfuncaoModelId");
-
-                    b.ToTable("Atividade");
-                });
 
             modelBuilder.Entity("SGD.Models.DocumentoModel", b =>
                 {
@@ -69,55 +45,6 @@ namespace SGD.Migrations
                     b.HasIndex("TipoDocId");
 
                     b.ToTable("Documentos");
-                });
-
-            modelBuilder.Entity("SGD.Models.EspecieModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("AtividadeModelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Especie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AtividadeModelId");
-
-                    b.ToTable("Especie");
-                });
-
-            modelBuilder.Entity("SGD.Models.EspecieTipoDoc", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("EspecieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoDocumentalId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EspecieId");
-
-                    b.HasIndex("TipoDocumentalId");
-
-                    b.ToTable("EspecieTipoDoc");
                 });
 
             modelBuilder.Entity("SGD.Models.FluxoModel", b =>
@@ -156,27 +83,6 @@ namespace SGD.Migrations
                         .IsUnique();
 
                     b.ToTable("FluxoLote");
-                });
-
-            modelBuilder.Entity("SGD.Models.FuncaoModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Funcao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Funcao");
                 });
 
             modelBuilder.Entity("SGD.Models.LoteModel", b =>
@@ -360,32 +266,6 @@ namespace SGD.Migrations
                     b.ToTable("Situacoes");
                 });
 
-            modelBuilder.Entity("SGD.Models.SubfuncaoModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FuncaoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Subfuncao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuncaoId");
-
-                    b.ToTable("Subfuncao");
-                });
-
             modelBuilder.Entity("SGD.Models.TipoDocumentalModel", b =>
                 {
                     b.Property<int>("Id")
@@ -471,13 +351,6 @@ namespace SGD.Migrations
                     b.ToTable("UsuarioProjetos");
                 });
 
-            modelBuilder.Entity("SGD.Models.AtividadeModel", b =>
-                {
-                    b.HasOne("SGD.Models.SubfuncaoModel", null)
-                        .WithMany("Atividades")
-                        .HasForeignKey("SubfuncaoModelId");
-                });
-
             modelBuilder.Entity("SGD.Models.DocumentoModel", b =>
                 {
                     b.HasOne("SGD.Models.ProtocoloModel", "Protocolo")
@@ -495,32 +368,6 @@ namespace SGD.Migrations
                     b.Navigation("Protocolo");
 
                     b.Navigation("TipoDoc");
-                });
-
-            modelBuilder.Entity("SGD.Models.EspecieModel", b =>
-                {
-                    b.HasOne("SGD.Models.AtividadeModel", null)
-                        .WithMany("Especies")
-                        .HasForeignKey("AtividadeModelId");
-                });
-
-            modelBuilder.Entity("SGD.Models.EspecieTipoDoc", b =>
-                {
-                    b.HasOne("SGD.Models.EspecieModel", "Especie")
-                        .WithMany("especieTiposDoc")
-                        .HasForeignKey("EspecieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SGD.Models.TipoDocumentalModel", "TipoDocumental")
-                        .WithMany()
-                        .HasForeignKey("TipoDocumentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Especie");
-
-                    b.Navigation("TipoDocumental");
                 });
 
             modelBuilder.Entity("SGD.Models.FluxoModel", b =>
@@ -610,17 +457,6 @@ namespace SGD.Migrations
                     b.Navigation("Lote");
                 });
 
-            modelBuilder.Entity("SGD.Models.SubfuncaoModel", b =>
-                {
-                    b.HasOne("SGD.Models.FuncaoModel", "Funcao")
-                        .WithMany("Subfuncoes")
-                        .HasForeignKey("FuncaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Funcao");
-                });
-
             modelBuilder.Entity("SGD.Models.UsuarioPermissaoModel", b =>
                 {
                     b.HasOne("SGD.Models.PermissoesModel", "Permissao")
@@ -659,21 +495,6 @@ namespace SGD.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("SGD.Models.AtividadeModel", b =>
-                {
-                    b.Navigation("Especies");
-                });
-
-            modelBuilder.Entity("SGD.Models.EspecieModel", b =>
-                {
-                    b.Navigation("especieTiposDoc");
-                });
-
-            modelBuilder.Entity("SGD.Models.FuncaoModel", b =>
-                {
-                    b.Navigation("Subfuncoes");
-                });
-
             modelBuilder.Entity("SGD.Models.LoteModel", b =>
                 {
                     b.Navigation("Fluxos");
@@ -705,11 +526,6 @@ namespace SGD.Migrations
             modelBuilder.Entity("SGD.Models.ProtocoloModel", b =>
                 {
                     b.Navigation("Documentos");
-                });
-
-            modelBuilder.Entity("SGD.Models.SubfuncaoModel", b =>
-                {
-                    b.Navigation("Atividades");
                 });
 
             modelBuilder.Entity("SGD.Models.TipoDocumentalModel", b =>

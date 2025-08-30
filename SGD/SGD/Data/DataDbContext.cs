@@ -27,6 +27,12 @@ namespace SGD.Data
         
         public DbSet<MetadadosTipoDocModel> MetadadosTipoDoc { get; set; }
 
+        public DbSet<FuncaoModel> Funcao { get; set; }
+        public DbSet<SubfuncaoModel> Subfuncao { get; set; }
+        public DbSet<AtividadeModel> Atividade { get; set; }
+        public DbSet<EspecieModel> Especie { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

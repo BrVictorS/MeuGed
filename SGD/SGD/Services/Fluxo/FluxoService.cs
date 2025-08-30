@@ -172,7 +172,8 @@ namespace SGD.Services.Fluxo
                 {
                     valido = true;
                 }
-            }else if (v.SituacaoId == idSituacao)
+            }
+            else if (v.SituacaoId == idSituacao)
             {
                 valido = true;    
                 ultimoId = v.Id;

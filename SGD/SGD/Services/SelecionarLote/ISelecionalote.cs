@@ -5,6 +5,6 @@ namespace SGD.Services.SelecionarLote
 {
     public interface ISelecionalote
     {
-        public ServiceResponse<List<SelecionarLoteDto>> GetLotesProxFila(int id);
+        public Task<ServiceResponse<List<SelecionarLoteDto>>> GetLotesFila(int id);
     }
 }

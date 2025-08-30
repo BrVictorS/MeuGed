@@ -1,2 +1,6 @@
 /GedDb/GedDb/bin
 *.vsidx
+*.bin
+*.v2
+*.v2
+/GedDb/GedDb/obj/Debug

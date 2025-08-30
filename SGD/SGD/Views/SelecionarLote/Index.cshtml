@@ -14,9 +14,18 @@
             <tr>
                 <td>@lote.NumLote</td>
                 <td>
-                    <a asp-controller="SelecionarLote" asp-action="SelectVerify" asp-route-id="@lote.Id">
-                        <button type="button" class="btn btn-warning">Editar</button>
-                    </a>
+                    @if(lote.IdSituacao == 5){
+                        <a asp-controller="SelecionarLote" asp-action="SelectVerify" asp-route-id="@lote.Id">
+                            <button type="button" class="btn btn-warning">Editar</button>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="SelecionarLote" asp-action="SelectIndex" asp-route-id="@lote.Id">
+                            <button type="button" class="btn btn-warning">Editar</button>
+                        </a>
+                    }
+
                 </td>
             </tr>
         }
