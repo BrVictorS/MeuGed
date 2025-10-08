@@ -179,6 +179,30 @@ namespace SGD.Migrations
                     b.ToTable("Funcao");
                 });
 
+            modelBuilder.Entity("SGD.Models.IndexacaoDocumentoModel", b =>
+                {
+                    b.Property<int>("MetadadoTipoDocId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DocumentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Valor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MetadadoTipoDocId", "DocumentoId", "LoteId");
+
+                    b.HasIndex("DocumentoId");
+
+                    b.HasIndex("LoteId");
+
+                    b.ToTable("Indexacao");
+                });
+
             modelBuilder.Entity("SGD.Models.LoteModel", b =>
                 {
                     b.Property<int>("Id")
@@ -548,6 +572,33 @@ namespace SGD.Migrations
                     b.Navigation("Situacao");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SGD.Models.IndexacaoDocumentoModel", b =>
+                {
+                    b.HasOne("SGD.Models.DocumentoModel", "Documento")
+                        .WithMany()
+                        .HasForeignKey("DocumentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SGD.Models.LoteModel", "Lote")
+                        .WithMany()
+                        .HasForeignKey("LoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SGD.Models.MetadadosTipoDocModel", "MetadadoTipoDoc")
+                        .WithMany()
+                        .HasForeignKey("MetadadoTipoDocId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Documento");
+
+                    b.Navigation("Lote");
+
+                    b.Navigation("MetadadoTipoDoc");
                 });
 
             modelBuilder.Entity("SGD.Models.LoteModel", b =>

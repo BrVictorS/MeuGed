@@ -21,7 +21,7 @@ namespace SGD.Controllers
             ServiceResponse<List<SelecionarLoteDto>> lotes = new ServiceResponse<List<SelecionarLoteDto>>();
             if (fila == 3)
             {
-               var a =  _selecionalote.GetLotesFila(5).Result;
+               lotes =  _selecionalote.GetLotesFila(5).Result;
             }
             else
             {

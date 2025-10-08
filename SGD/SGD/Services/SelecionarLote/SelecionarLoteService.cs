@@ -20,16 +20,29 @@ namespace SGD.Services.SelecionarLote
                 var resp = new ServiceResponse<List<SelecionarLoteDto>>();
                 var filaAnterior = GetFilaAnterior(id);
 
-                // último FluxoLote por Lote (pela maior DtInicio)
-                var ultimosFluxos =
-                    from fl in _context.FluxoLote.AsNoTracking()
+            var fluxolote = _context.FluxoLote.AsNoTracking().AsEnumerable();
+
+
+            var teste = from fluxo in fluxolote
+                        group fluxo by fluxo.LoteId into g
+                        select g;
+
+          
+            // último FluxoLote por Lote (pela maior DtInicio)
+            var ultimosFluxos =
+                    from fl in fluxolote
                     group fl by fl.LoteId into g
+
                     let maxIni = g.Max(x => x.DtInicio)
+
                     from fl in g.Where(x => x.DtInicio == maxIni).Take(1)
                     select fl;
 
+            var lotes = _context.Lote.AsNoTracking().AsEnumerable();
+           
+
                 var query =
-                    from l in _context.Lote.AsNoTracking()
+                    from l in lotes
                     join f in ultimosFluxos on l.Id equals f.LoteId
                     where (f.SituacaoId == id && f.DtFim == null)
                        || (f.SituacaoId == filaAnterior && f.DtFim != null)
@@ -40,7 +53,7 @@ namespace SGD.Services.SelecionarLote
                         IdSituacao = (f.SituacaoId == filaAnterior && f.DtFim != null) ? id : f.SituacaoId
                     };
 
-                resp.Dados = await query.ToListAsync();
+                resp.Dados =  query.ToList();
                 return resp;
             }
 

@@ -1,18 +1,6 @@
 ﻿@using SGD.Dtos.Response
 @model ServiceResponse<List<TipoDocumentalModel>>
 
-@if (Model.Status && !string.IsNullOrEmpty(Model.Mensagem))
-{
-    <div class="alert alert-success">
-        @Model.Mensagem
-    </div>
-}
-else if (!Model.Status && !string.IsNullOrEmpty(Model.Mensagem))
-{
-    <div class="alert alert-danger">
-        @Model.Mensagem
-    </div>
-}
 <div class="container-sm" style="width:900px">
         <a asp-action="Cadastrar">
             <button type="button" style="width:100px" class="btn btn-primary">Novo</button>
@@ -35,7 +23,7 @@ else if (!Model.Status && !string.IsNullOrEmpty(Model.Mensagem))
                             <td>@tipo.Name</td>
                             <td>
                                         @* <a asp-action="Editar" asp-route-id="@tipo.Id"> *@
-                                <a asp-action="Editar" asp-route-id="99">
+                                <a asp-action="Editar" asp-route-id="@tipo.Id">
                                         <button type="button" class="btn btn-warning">Editar</button>
                                         </a>
                             </td>

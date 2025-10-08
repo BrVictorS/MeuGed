@@ -61,6 +61,15 @@ namespace SGD.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> MostrarImagemIndex([FromBody] string documento)
+        {
+            var img = await _arquivo.GetImagemIndex(documento);
+
+            return File(img, "image/png");
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> AtualizaImagem([FromBody] AtualizaImagemDto imagem)
         {
             var img = await _api.AtualizaImagem(imagem);

@@ -1,38 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\",
+  "WorkspaceRootPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\controllers\\selecionarlotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\controllers\\selecionarlotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\data\\datadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\data\\datadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\controllers\\verifycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\controllers\\verifycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\services\\selecionarlote\\selecionarloteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\selecionarlote\\selecionarloteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\services\\selecionarlote\\iselecionalote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\selecionarlote\\iselecionalote.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\services\\fluxo\\fluxoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\fluxo\\fluxoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\views\\verify\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\views\\verify\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\views\\selecionarlote\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\views\\selecionarlote\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\user\\source\\repos\\meuged\\sgd\\sgd\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\models\\indexacaodocumentomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\models\\indexacaodocumentomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,110 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ISelecionalote.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Services\\SelecionarLote\\ISelecionalote.cs",
-              "RelativeDocumentMoniker": "SGD\\Services\\SelecionarLote\\ISelecionalote.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Services\\SelecionarLote\\ISelecionalote.cs",
-              "RelativeToolTip": "SGD\\Services\\SelecionarLote\\ISelecionalote.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T14:59:22.868Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SelecionarLoteService.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Services\\SelecionarLote\\SelecionarLoteService.cs",
-              "RelativeDocumentMoniker": "SGD\\Services\\SelecionarLote\\SelecionarLoteService.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Services\\SelecionarLote\\SelecionarLoteService.cs",
-              "RelativeToolTip": "SGD\\Services\\SelecionarLote\\SelecionarLoteService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAqwB8AAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T14:51:26.915Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FluxoService.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Services\\Fluxo\\FluxoService.cs",
-              "RelativeDocumentMoniker": "SGD\\Services\\Fluxo\\FluxoService.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Services\\Fluxo\\FluxoService.cs",
-              "RelativeToolTip": "SGD\\Services\\Fluxo\\FluxoService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKUAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T14:45:44.294Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Views\\SelecionarLote\\Index.cshtml",
-              "RelativeDocumentMoniker": "SGD\\Views\\SelecionarLote\\Index.cshtml",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Views\\SelecionarLote\\Index.cshtml",
-              "RelativeToolTip": "SGD\\Views\\SelecionarLote\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-28T14:34:14.897Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Views\\Verify\\Index.cshtml",
-              "RelativeDocumentMoniker": "SGD\\Views\\Verify\\Index.cshtml",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Views\\Verify\\Index.cshtml",
-              "RelativeToolTip": "SGD\\Views\\Verify\\Index.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACEAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-28T14:33:18.059Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SelecionarLoteController.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Controllers\\SelecionarLoteController.cs",
-              "RelativeDocumentMoniker": "SGD\\Controllers\\SelecionarLoteController.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Controllers\\SelecionarLoteController.cs",
-              "RelativeToolTip": "SGD\\Controllers\\SelecionarLoteController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAQAAAAAAAAAA==",
+              "Title": "DataDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Data\\DataDbContext.cs",
+              "RelativeDocumentMoniker": "SGD\\Data\\DataDbContext.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Data\\DataDbContext.cs",
+              "RelativeToolTip": "SGD\\Data\\DataDbContext.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAABsAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T14:32:37.539Z",
+              "WhenOpened": "2025-10-08T13:53:16.132Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "VerifyController.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Controllers\\VerifyController.cs",
-              "RelativeDocumentMoniker": "SGD\\Controllers\\VerifyController.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\Controllers\\VerifyController.cs",
-              "RelativeToolTip": "SGD\\Controllers\\VerifyController.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAYwCgAAAAMAAAAAAAAAA==",
+              "Title": "IndexacaoDocumentoModel.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Models\\IndexacaoDocumentoModel.cs",
+              "RelativeDocumentMoniker": "SGD\\Models\\IndexacaoDocumentoModel.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Models\\IndexacaoDocumentoModel.cs",
+              "RelativeToolTip": "SGD\\Models\\IndexacaoDocumentoModel.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAUAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T14:32:34.91Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\appsettings.json",
-              "RelativeDocumentMoniker": "SGD\\appsettings.json",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\MeuGed\\SGD\\SGD\\appsettings.json",
-              "RelativeToolTip": "SGD\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-28T00:35:06.141Z",
+              "WhenOpened": "2025-10-08T13:47:20.05Z",
               "EditorCaption": ""
             }
           ]

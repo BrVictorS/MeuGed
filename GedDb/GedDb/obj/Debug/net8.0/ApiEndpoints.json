@@ -95,6 +95,22 @@
   },
   {
     "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "GetImagemIndex",
+    "RelativePath": "api/Lote/GetImagemIndex",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "documento",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
     "Method": "SetSituacaoImagem",
     "RelativePath": "api/Lote/imagem",
     "HttpMethod": "PUT",

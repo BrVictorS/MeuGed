@@ -1,12 +1,76 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGD.Models.ViewModels;
+using SGD.Services.API;
+using SGD.Services.Arquivo;
+using SGD.Services.Fluxo;
+using SGD.Services.Index;
+using System.Security.Claims;
 
 namespace SGD.Controllers
 {
-    public class IndexController : Controller
+    public class IndexController : BaseController
     {
-        public IActionResult Index()
+
+        private readonly IApiInterface _api;
+        private readonly IArquivoInterface _arquivo;
+        private readonly IFluxoInterface _fluxo;
+        private readonly IIndexInterface _index;
+        public IndexController(IApiInterface api, IArquivoInterface arquivo, IFluxoInterface fluxo, IIndexInterface index)
         {
-            return View();
+            _api = api;
+            _arquivo = arquivo;
+            _fluxo = fluxo;
+            _index = index;
+        }
+        public async Task<IActionResult> Index(int id)
+        {
+            var lote = await _api.GetLote(id);
+            if (!lote.Status)
+            {
+                TempData["erro"] = lote.Mensagem;
+                return RedirectToAction("Index", "SelecionarLote");
+            }
+            var idUsuario = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var Fluxo = await _fluxo.InsereFluxo(idUsuario, int.Parse(HttpContext.Session.GetString("idProjeto")), id, 6);
+            if (!Fluxo.Status)
+            {
+                TempData["erro"] = Fluxo.Mensagem;
+                return RedirectToAction("Index", "SelecionarLote", new { fila = 3 });
+            }
+            else
+            {
+                HttpContext.Session.SetInt32("idFluxo", Fluxo.Dados);
+
+                IndexacaoViewModel model = new IndexacaoViewModel();
+                model.IdLote = lote.Dados.idLote;
+                model.NumLote = lote.Dados.numLote;
+                model.Documentos = lote.Dados.imagens.Where(x => !string.IsNullOrEmpty(x.documentoId)).Select(x => x.documentoId).ToList();
+                model.TiposDocumento = _index.GetTiposDocumentoLote(lote.Dados.idLote).Result.Dados;
+
+                return View("Index", model);
+            }
+        }
+
+        public async Task<IActionResult> InsereIndexacaoDocumento([FromBody] Dictionary<string,dynamic> valores)
+        {
+            if (string.IsNullOrEmpty(string.Concat(valores.Skip(3).Select(s => s.Value).ToList())))
+            {
+               
+                return Erro("Indexação do documento não pode ser em branco!");
+            }
+            ;
+
+
+            return Sucesso("Documento salvo com sucesso");
+        }
+
+        public async Task<IActionResult> GetIndexacaoDocumento([FromBody] string documento)
+        {
+            if (!string.IsNullOrEmpty(documento))
+            {
+                var dados = await _index.GetIndexacaoDocumento(documento);
+            }
+            return Erro("Erro ao retornar indexação para o documento");
         }
     }
 }

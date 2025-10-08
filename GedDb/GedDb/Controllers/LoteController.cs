@@ -48,7 +48,6 @@ namespace GedDb.Controllers
             if (result == null)
                 return NotFound(new { status = false, msg = "Lote não encontrado" });
 
-            // Procura a imagem dentro do lote
             var imgPath = Path.Combine(
                 _database._arquivos,
                 result.idLote,
@@ -60,10 +59,8 @@ namespace GedDb.Controllers
             if (string.IsNullOrEmpty(imgPath) || !System.IO.File.Exists(imgPath))
                 return NotFound(new { status = false, msg = "Imagem não encontrada para o lote" });
 
-            // Lê o arquivo como bytes
             var imgBytes = await System.IO.File.ReadAllBytesAsync(imgPath);
 
-            // Define o content type de acordo com a extensão
             var ext = Path.GetExtension(imgPath).ToLower();
             string contentType = ext switch
             {
@@ -71,6 +68,48 @@ namespace GedDb.Controllers
                 ".png" => "image/png",
                 ".gif" => "image/gif",
                 ".tif" or ".tiff" => "image/tiff", // navegadores podem não suportar
+                _ => "application/octet-stream"
+            };
+
+            return File(imgBytes, contentType);
+        }
+
+        [HttpGet("GetImagemIndex")]
+        public async Task<IActionResult> GetImagemIndex(string documento)
+        {
+            var filter = Builders<Lote>.Filter.Eq("imagens.documento", documento);
+            var projection = Builders<Lote>.Projection
+                .Include(l => l.idLote)
+                .Include(l => l.NumLote)
+                .ElemMatch(l => l.Imagens, i => i.DocumentoId == documento);
+
+            var result = await _lote.Find(filter)
+                .Project<Lote>(projection)
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return NotFound(new { status = false, msg = "Lote não encontrado" });
+
+            var imgPath = Path.Combine(
+                _database._arquivos,
+                result.idLote,
+                result.Imagens.First().Caminho
+                );
+
+
+
+            if (string.IsNullOrEmpty(imgPath) || !System.IO.File.Exists(imgPath))
+                return NotFound(new { status = false, msg = "Imagem não encontrada para o lote" });
+
+            var imgBytes = await System.IO.File.ReadAllBytesAsync(imgPath);
+
+            var ext = Path.GetExtension(imgPath).ToLower();
+            string contentType = ext switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".tif" or ".tiff" => "image/tiff", 
                 _ => "application/octet-stream"
             };
 

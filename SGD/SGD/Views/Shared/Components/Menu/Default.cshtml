@@ -1,6 +1,6 @@
 ﻿@model UsuarioModel
 @using Microsoft.AspNetCore.Http
-<a class="navbar-brand  " asp-area="" asp-controller="Home" asp-action="Index">Sistema</a>
+<a class="navbar-brand  " asp-area="" asp-controller="Home" asp-action="Index">@ViewContext.HttpContext.Session.GetString("nomeProjeto")</a>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -81,7 +81,6 @@
 
 
 <div class="d-flex flex-column bg-body-tertiary" style="width:200px">
-    <a class="navbar-brand ">@ViewContext.HttpContext.Session.GetString("nomeProjeto")</a>
     <hr />
     <div class="dropdown" asp-for="model">
         <a href="#" class=" btnome d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

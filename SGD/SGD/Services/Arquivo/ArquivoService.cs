@@ -121,5 +121,18 @@ namespace SGD.Services.Scan
 
             return response;
         }
+
+        public async Task<byte[]> GetImagemIndex(string documento)
+        {
+            var imgbyte = await _apiService.GetImagemIndex(documento);
+
+            using (var img = new MagickImage(imgbyte))
+            {
+                img.Format = MagickFormat.Png;
+                using var stream = new MemoryStream();
+                img.Write(stream);
+                return stream.ToArray();
+            }
+        }
     }
 }

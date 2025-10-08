@@ -19,6 +19,7 @@ using SGD.Services.API;
 using SGD.Filters;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.Http.Features;
+using SGD.Services.Index;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,7 @@ builder.Services.AddScoped<ISelecionalote, SelecionarLoteService>();
 builder.Services.AddScoped<ITipoDocumentoInterface, TipoDocumentoService>();
 builder.Services.AddScoped<IApiInterface, ApiService>();
 builder.Services.AddScoped<LoteSelecionado>();
+builder.Services.AddScoped<IIndexInterface,IndexService>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

@@ -9,8 +9,6 @@ namespace SGD.Data
         public DataDbContext(DbContextOptions<DataDbContext> options) : base(options)
         {            
         }
-        
-
         public DbSet<UsuarioModel> Usuarios { get; set; }
         public DbSet<DocumentoModel> Documentos { get; set; }
         public DbSet<LoteModel> Lote { get; set; }
@@ -24,18 +22,18 @@ namespace SGD.Data
         public DbSet<UsuarioProjetoModel> UsuarioProjetos { get; set; }
         public DbSet<SituacaoModel> Situacoes { get; set; }
         public DbSet<ParametrosModel> Parametros { get; set; }
-        
         public DbSet<MetadadosTipoDocModel> MetadadosTipoDoc { get; set; }
-
         public DbSet<FuncaoModel> Funcao { get; set; }
         public DbSet<SubfuncaoModel> Subfuncao { get; set; }
         public DbSet<AtividadeModel> Atividade { get; set; }
         public DbSet<EspecieModel> Especie { get; set; }
-
-
-
+        public DbSet<IndexacaoDocumentoModel> Indexacao { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<IndexacaoDocumentoModel>()
+                .HasKey(id => new { id.MetadadoTipoDocId, id.DocumentoId, id.LoteId }); // Chave composta
+
+
             // Configurando a tabela de junção explícita
             modelBuilder.Entity<UsuarioPermissaoModel>()
                 .HasKey(up => new { up.UsuarioId, up.PermissaoId }); // Chave composta

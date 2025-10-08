@@ -25,8 +25,7 @@ namespace SGD.Services.API
         {
             return await ApiPut(imagem, "api/Lote/imagem");           
         }
-
-        
+       
         public async Task<ApiResponseDto> EnviarLote(LoteApiDto loteApiDto)
         {
             try
@@ -64,7 +63,7 @@ namespace SGD.Services.API
         public async Task<byte[]> GetImagem(string imagem)
         {
             using var http = new HttpClient();
-            var response = await http.GetAsync($"{_apiPath}api/Lote/GetImagem?imagem={imagem}");
+            var response = await http.GetAsync($"{_apiPath}/Lote/GetImagem?imagem={imagem}");
 
             if (!response.IsSuccessStatusCode)
                 return new byte[0]; // ou lance exceção, conforme necessidade
@@ -82,7 +81,7 @@ namespace SGD.Services.API
                 {
                     httpClient.BaseAddress = new Uri(_apiPath);
                                          
-                    var chamada = await httpClient.GetAsync($"{_apiPath}api/Lote/{id}");
+                    var chamada = await httpClient.GetAsync($"{_apiPath}/Lote/{id}");
 
                     string resChamada = await chamada.Content.ReadAsStringAsync();
 
@@ -146,7 +145,28 @@ namespace SGD.Services.API
 
         public async Task<ApiResponseDto> InsereDocumento(InsereDocumentoDto documentoDto)
         {
-            return await ApiPut(documentoDto, "api/Lote/InsereDocumento");
+            try
+            {
+                //if (string.IsNullOrEmpty(documentoDto.documento))
+                //{
+                //    if ((bool)ApiGet(documentoDto, "Lote/").Result.Dados)
+                //    {
+                //        ApiPut(documentoDto, "api/Lote/InsereDocumento");
+                //    }
+                //}
+
+                var protocolo = _context.Protocolos.FirstOrDefault(x => x.Etiqueta == long.Parse(documentoDto.documento));
+                if (protocolo != null && protocolo.Documentos != null && protocolo.Documentos.Any())
+                {
+                    return new ApiResponseDto() { status = false, msg = "Etiqueta já possui dados indexados" };
+                }
+
+                return await ApiPut(documentoDto, "api/Lote/InsereDocumento");
+            }
+            catch
+            {
+                return new ApiResponseDto() { status = false, msg = "Falha ao inserir documento" };
+            }
         }
 
         public async Task<ApiResponseDto> InsereImagem(string idLote,List<string> files, int posicao)
@@ -159,6 +179,35 @@ namespace SGD.Services.API
             };
 
             return await ApiPut(obj, "api/Lote/InsereImagem");
+        }
+
+        public async Task<ApiResponseDto> ApiGet(object args,string url)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(_apiPath);
+
+                var chamada = await httpClient.GetAsync($"{_apiPath}/{args}");
+
+                string resChamada = await chamada.Content.ReadAsStringAsync();
+
+                ApiResponseDto resposta = System.Text.Json.JsonSerializer.Deserialize<ApiResponseDto>(resChamada);
+
+          
+                return resposta;
+            }
+        }
+
+        public async Task<byte[]> GetImagemIndex(string documento)
+        {
+            using var http = new HttpClient();
+            var response = await http.GetAsync($"{_apiPath}/Lote/GetImagemIndex?documento={documento}");
+
+            if (!response.IsSuccessStatusCode)
+                return new byte[0]; // ou lance exceção, conforme necessidade
+
+            var imagemBytes = await response.Content.ReadAsByteArrayAsync();
+            return imagemBytes;
         }
     }
 }

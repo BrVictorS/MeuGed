@@ -12,7 +12,7 @@ namespace SGD.Services.Sessao
             var path = context.HttpContext.Request.Path.Value?.ToLower();
 
             if (session.GetString("SessaoUsuario") == null &&
-                 context.Controller is not HomeController)
+                 context.Controller is not HomeController && path != "/usuario/cadastrar")
             {
                 context.Result = new ViewResult
                 {

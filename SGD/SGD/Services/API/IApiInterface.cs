@@ -14,5 +14,6 @@ namespace SGD.Services.API
         public Task<ApiResponseDto> MoveImagem(MoveImagemDto imagem);
         public Task<ApiResponseDto> InsereDocumento(InsereDocumentoDto documentoDto);
         Task<ApiResponseDto> InsereImagem(string idLote, List<string> files, int posicao);
+        Task<byte[]> GetImagemIndex(string documento);
     }
 }
