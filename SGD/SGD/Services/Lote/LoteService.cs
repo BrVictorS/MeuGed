@@ -3,6 +3,8 @@ using SGD.Models;
 using SGD.Services.Fluxo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SGD.Dtos.Response;
+using SGD.Dtos.Lote;
 
 namespace SGD.Services.Lote
 {
@@ -28,6 +30,33 @@ namespace SGD.Services.Lote
             else
             {
                 return lotes;
+            }
+        }
+
+        public Task<ServiceResponse<object>> GetLoteById(int idLote)
+        {
+            var lote = _context.Lote.Where(l => l.Id == idLote).Select(s => new EditarLoteDto()
+            {
+                LoteId = s.NumLote,
+                ProjetoId = s.ProjetoId,
+                Observacao = s.Observacao
+            }).FirstOrDefaultAsync();
+
+            if (lote == null)
+            {
+                return Task.FromResult(new ServiceResponse<object>
+                {
+                    Status = false,
+                    Mensagem = "Lote não encontrado."
+                });
+            }
+            else
+            {
+                return Task.FromResult(new ServiceResponse<object>
+                {
+                    Dados = lote.Result,
+                    Status = true,
+                });
             }
         }
 

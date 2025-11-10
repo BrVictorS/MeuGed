@@ -1,193 +1,193 @@
 ﻿@model SGD.Models.ViewModels.PreparoViewModel
 
-<div class="container-box">
-    <!-- Linha com Lote e Usuário -->
-    <div class="form-row">
-        <!-- Campo Lote -->
-        <div class="form-group">
-            <label for="idlote" class="form-label">Lote</label>
-            <input type="text" class="form-control" id="idlote" />
+<div class="container mt-4">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Preparo</h5>
         </div>
+        <div class="card-body">
+            <form id="formLotes" method="post" action="/Preparo/SalvarPreparo">
+                <input type="hidden" name="jsonLotes" id="jsonLotes" />
 
-        <!-- Campo Usuário (dropdown) -->
-        <div class="form-group">
-            <label class="form-label">Usuário</label>
-            <div class="dropdown">
-                <button id="btndrop"class ="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Selecionar usuário
-                </button>
-                <ul class="dropdown-menu">
-                    @foreach (var usuario in Model.Usuarios)
-                    {
-                        <li><a class="dropdown-item" data-id="@usuario.Id" onclick="slusu()" href="#">@usuario.Nome</a></li>
-                    }                    
-                </ul>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="idlote" class="form-label">Lote</label>
+                        <input type="text" class="form-control" id="idlote" placeholder="Digite o número do lote" />
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="idUsuario" class="form-label">Usuário</label>
+                        <select id="idUsuario" class="form-select">
+                            <option value="" selected disabled>Selecione um usuário...</option>
+                            @foreach (var usuario in Model.Usuarios)
+                            {
+                                <option value="@usuario.Id">@usuario.Nome</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 d-grid">
+                        <button type="button" class="btn btn-primary" id="btnAdicionar">
+                            <i class="bi bi-plus-circle"></i> Adicionar
+                        </button>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-save"></i> Salvar Preparo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">Lotes Adicionados</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0" id="tabelaLotes">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Lote</th>
+                            <th scope="col">Operador</th>
+                            <th scope="col" class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lotesBody">
+                        <tr id="emptyRow">
+                            <td colspan="3" class="text-center text-muted">Nenhum lote adicionado.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
-    <!-- Botões -->
-    <form id="formLotes" method="post" action="/Preparo/SalvarPreparo">
-        <input type="hidden" name="jsonLotes" id="jsonLotes"/>
-        <div class="btn-group-custom">
-            <button type="button" class="btn btn-primary" id="btnAdicionar">Adicionar</button>
-            <button type="submit" class="btn btn-success">Salvar</button>
-        </div>
-    </form>
 </div>
-
-<!-- Tabela -->
-<div class="table-container">
-    <table class="table table-hover" id="tabelaLotes">
-        <thead>
-            <tr>
-                <th scope="col">Lote</th>
-                <th scope="col">Operador</th>
-                <th scope="col">Ações</th>
-            </tr>
-        </thead>
-    </table>
-    <div class="table-body-scroll">
-        <table class="table table-hover">
-            <tbody>
-               
-            </tbody>
-        </table>
-    </div>
-</div>
-
 
 <style>
-    /* Container principal */
-    .container-box {
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 20px;
-        width: 700px;
-        margin-bottom: 20px;
-        background-color: #f9f9f9;
-    }
-
-    /* Linha com campos */
-    .form-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 20px;
-    }
-
-    /* Cada grupo de label + input */
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
-
-    .form-label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .form-control {
-        padding: 6px 10px;
-        border-radius: 4px;
-        border: 1px solid #ced4da;
-    }
-
-    /* Botões alinhados esquerda e direita */
-    .btn-group-custom {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .table-container {
-        max-width: 700px;
-        border: 1px solid #ccc;
-    }
-
-    .table-container thead th {
-        position: sticky;
-        top: 0;
-        background-color: #fff;
-        z-index: 2;
-    }
-
-    .table-body-scroll {
-        max-height: 500px;
+    /* Define uma altura máxima para o corpo da tabela e
+          habilita o scroll vertical.
+        */
+    #lotesBody {
+        display: block; /* Essencial para o scroll no tbody */
+        max-height: 400px;
         overflow-y: auto;
     }
 
-    .table {
+    /* Força o cabeçalho e as linhas do corpo a terem
+          o mesmo layout de tabela para alinhar as colunas.
+        */
+    #tabelaLotes thead, #tabelaLotes tbody tr {
+        display: table;
         width: 100%;
-        margin: 0;
+        table-layout: fixed;
     }
 
-    .btn-danger {
-        background: none !important;
-        color: black !important;
+    /* Ajusta o tamanho da coluna de ações */
+    #tabelaLotes th:nth-child(3),
+    #tabelaLotes td:nth-child(3) {
+        width: 120px; /* Largura fixa para a coluna de Ações */
     }
-
 </style>
+
 <script>
-    function slusu() {
-        var btn = document.getElementById('btndrop');
-        var selecionado = event.target;
-        btn.innerText = selecionado.innerText;
-        btn.dataset.id = selecionado.getAttribute('data-id'); // armazena o id do usuário
-    }
+    // Espera o DOM carregar antes de executar o script
+    document.addEventListener('DOMContentLoaded', function () {
 
-    document.getElementById('btnAdicionar').addEventListener('click', function () {
-        const lote = document.getElementById('idlote').value.trim();
-        const btnUsuario = document.getElementById('btndrop');
-        const nomeUsuario = btnUsuario.innerText.trim();
-        const idUsuario = btnUsuario.dataset.id;
+        // 1. Armazena os elementos principais em cache
+        const formLotes = document.getElementById('formLotes');
+        const inputLote = document.getElementById('idlote');
+        const selectUsuario = document.getElementById('idUsuario');
+        const btnAdicionar = document.getElementById('btnAdicionar');
+        const lotesBody = document.getElementById('lotesBody');
+        const emptyRow = document.getElementById('emptyRow');
+        
+        const hiddenJsonLotes = document.getElementById('jsonLotes');
 
-        // validações básicas
-        if (!lote || nomeUsuario === 'Selecionar usuário') {
-            alert('Preencha o lote e selecione um usuário.');
-            return;
-        }
+        // 2. Lógica para "Adicionar"
+        btnAdicionar.addEventListener('click', function () {
+            const lote = inputLote.value.trim();
+            const idUsuario = selectUsuario.value;
+            const nomeUsuario = selectUsuario.options[selectUsuario.selectedIndex].text;
 
-        const tbody = document.getElementById('tabelaLotes');
+            // Validação
+            if (!lote || !idUsuario) {
+                showMensagem("Por favor, preencha o lote e selecione um usuário.",true;
+                return;
+            }            
 
-        // cria a linha
-        const novaLinha = document.createElement('tr');
-        novaLinha.setAttribute('data-id-usuario', idUsuario); // você pode armazenar o id se quiser usar depois
+            // Remove a linha "vazio" se ela existir
+            if (emptyRow) {
+                emptyRow.remove();
+            }
 
-        novaLinha.innerHTML = `
+            // Cria a nova linha
+            const novaLinha = document.createElement('tr');
+            // Armazena os dados na própria linha
+            novaLinha.setAttribute('data-id-usuario', idUsuario);
+            novaLinha.setAttribute('data-lote', lote);
+
+            novaLinha.innerHTML = `
                 <td>${lote.toString().padStart(6, '0')}</td>
                 <td>${nomeUsuario}</td>
-                <td>
-                        <button class="btn btn-danger" onclick="this.closest('tr').remove()">Remover</button>
+                <td class="text-center">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-remover">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </td>
             `;
+            
+            lotesBody.appendChild(novaLinha);
 
-        tbody.appendChild(novaLinha);
+            // Limpa os campos
+            inputLote.value = '';
+            selectUsuario.value = '';
+            inputLote.focus(); // Foca no campo lote para o próximo
+        });
 
-        // limpa os campos
-        document.getElementById('idlote').value = '';
-        btnUsuario.innerText = 'Selecionar usuário';
-        delete btnUsuario.dataset.id;
-    });
+        // 3. Lógica para "Remover" (Usando Delegação de Evento)
+        // Ouve cliques no <tbody>, mas só reage se o clique foi
+        // em um botão com a classe .btn-remover
+        lotesBody.addEventListener('click', function (e) {
+            // .closest() encontra o ancestral mais próximo que bate com o seletor
+            const removeButton = e.target.closest('.btn-remover');
 
-    document.getElementById('formLotes').addEventListener('submit', function (e) {
-        const linhas = document.querySelectorAll('#tabelaLotes tr');
-        const dados = [];
-
-        linhas.forEach(linha => {
-            const numeroLote = linha.cells[0].innerText;
-            const idUsuario = linha.getAttribute('data-id-usuario');
-
-            if (numeroLote && idUsuario) {
-                dados.push({
-                    NumeroLote: numeroLote,
-                    IdUsuario: parseInt(idUsuario)
-                });
+            if (removeButton) {
+                removeButton.closest('tr').remove(); // Remove a linha (tr)
             }
         });
 
-        // coloca o JSON no campo oculto
-        document.getElementById('jsonLotes').value = JSON.stringify(dados);
-    });
+        // 4. Lógica para "Salvar" (Submit do Formulário)
+        formLotes.addEventListener('submit', function (e) {
+            // Seleciona APENAS as linhas de dados (dentro do tbody)
+            const linhas = lotesBody.querySelectorAll('tr');
+            const dados = [];
 
+            linhas.forEach(linha => {
+                // Pega os dados armazenados na linha
+                const numeroLote = linha.getAttribute('data-lote');
+                const idUsuario = linha.getAttribute('data-id-usuario');
+
+                if (numeroLote && idUsuario) {
+                    dados.push({
+                        NumeroLote: numeroLote,
+                        IdUsuario: parseInt(idUsuario, 10) // 10 = base decimal
+                    });
+                }
+            });
+
+            if (dados.length === 0) {
+                e.preventDefault(); // Impede o envio do formulário
+                showMensagem("Adicione pelo menos um lote antes de salvar.",true;
+                return;
+            }
+
+            // Coloca o JSON no campo oculto para envio
+            hiddenJsonLotes.value = JSON.stringify(dados);
+        });
+    });
 </script>

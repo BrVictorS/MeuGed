@@ -59,12 +59,13 @@ namespace SGD.Migrations
                     b.Property<int>("ProtocoloId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoDocId")
+                    b.Property<int?>("TipoDocId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProtocoloId");
+                    b.HasIndex("ProtocoloId")
+                        .IsUnique();
 
                     b.HasIndex("TipoDocId");
 
@@ -355,6 +356,9 @@ namespace SGD.Migrations
 
                     b.HasIndex("LoteId");
 
+                    b.HasIndex("Etiqueta", "LoteId")
+                        .IsUnique();
+
                     b.ToTable("Protocolos");
                 });
 
@@ -505,16 +509,14 @@ namespace SGD.Migrations
             modelBuilder.Entity("SGD.Models.DocumentoModel", b =>
                 {
                     b.HasOne("SGD.Models.ProtocoloModel", "Protocolo")
-                        .WithMany("Documentos")
-                        .HasForeignKey("ProtocoloId")
+                        .WithOne("Documento")
+                        .HasForeignKey("SGD.Models.DocumentoModel", "ProtocoloId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SGD.Models.TipoDocumentalModel", "TipoDoc")
                         .WithMany()
-                        .HasForeignKey("TipoDocId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TipoDocId");
 
                     b.Navigation("Protocolo");
 
@@ -755,7 +757,8 @@ namespace SGD.Migrations
 
             modelBuilder.Entity("SGD.Models.ProtocoloModel", b =>
                 {
-                    b.Navigation("Documentos");
+                    b.Navigation("Documento")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SGD.Models.SubfuncaoModel", b =>

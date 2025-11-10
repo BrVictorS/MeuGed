@@ -9,9 +9,9 @@ namespace SGD.Models
         public int Id { get; set; }
         [Required]
         public long Etiqueta { get; set; }
-        public ICollection<DocumentoModel> Documentos { get; set; }
-        public int LoteId { get; set; } // Chave estrangeira (FK)
+        public DocumentoModel Documento { get; set; }
+        public int LoteId { get; set; }
         [JsonIgnore]
-        public LoteModel Lote { get; set; } // Propriedade de navegação
+        public LoteModel Lote { get; set; }
     }
 }

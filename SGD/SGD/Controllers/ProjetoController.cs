@@ -1,10 +1,10 @@
-﻿using LojaLivros.Services.Projeto;
-using SGD.Data;
+﻿using SGD.Data;
 using SGD.Dtos.Projeto;
 using SGD.Models;
 using SGD.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SGD.Services.Projeto;
 
 namespace SGD.Controllers
 {    

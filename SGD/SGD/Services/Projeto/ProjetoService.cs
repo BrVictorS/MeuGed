@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LojaLivros.Services.Projeto;
 using SGD.Data;
 using SGD.Dtos.Projeto;
 using SGD.Dtos.Usuarios;

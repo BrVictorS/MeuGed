@@ -11,10 +11,11 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using SGD.Dtos.Response;
 using SGD.Services.API;
-using ImageMagick;
+
 using SGD.Dtos.Arquivo;
 using Microsoft.EntityFrameworkCore;
 using SGD.Dtos.Verify;
+using ImageMagick;
 
 namespace SGD.Services.Scan
 {
@@ -31,10 +32,9 @@ namespace SGD.Services.Scan
             _arquivosPath = _context.Parametros.FirstOrDefault(x => x.Descricao == "LOTES").Valor;
         }
 
-        public async Task<ServiceResponse<bool>> EnviaLote(IFormFileCollection files, string idLote)
+        public async Task<ServiceResponse<string>> EnviaLote(IFormFileCollection files, string idLote)
         {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            
+           
             LoteApiDto loteApiDto = new LoteApiDto();
             loteApiDto.idLote = idLote;
             loteApiDto.numLote = _context.Lote.FirstOrDefaultAsync(x=>x.Id == int.Parse(idLote)).Result.NumLote;
@@ -43,17 +43,12 @@ namespace SGD.Services.Scan
             var api = await _apiService.EnviarLote(loteApiDto);// await EnviarLoteAPI(loteApiDto);
 
 
-            if (api.status)
+            if (api.Status)
             {
-                response = await EnviaArquivos(files,idLote);
+                return await EnviaArquivos(files,idLote);
             }
-            else
-            {
-                response.Mensagem = api.msg;
-                response.Status = api.status;                
-            }
-            
-            return response;
+
+            return api;
         }
         
         public void MoveLote()
@@ -74,10 +69,9 @@ namespace SGD.Services.Scan
             }
         }
 
-        public async Task<ServiceResponse<bool>> InsereImagem(InsereImagemDto dto)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            response = await _apiService.InsereImagem(dto.idLote,dto.files.Select(x => x.FileName).ToList(),dto.posicao);
+        public async Task<ServiceResponse<string>> InsereImagem(InsereImagemDto dto)
+        {            
+            var response = await _apiService.InsereImagem(dto.idLote,dto.files.Select(x => x.FileName).ToList(),dto.posicao);
             if (!response.Status)
             {
                 return response;
@@ -90,9 +84,9 @@ namespace SGD.Services.Scan
 
         }
 
-        private async Task<ServiceResponse<bool>> EnviaArquivos(IFormFileCollection files, string idLote)
+        private async Task<ServiceResponse<string>> EnviaArquivos(IFormFileCollection files, string idLote)
         {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
+            ServiceResponse<string> response = new ServiceResponse<string>();
             try
             {
                 string PastaLote = Path.Combine(_arquivosPath, idLote);

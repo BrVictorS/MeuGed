@@ -14,12 +14,18 @@
     <link rel="stylesheet" href="~/SGD.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
+        .body{
+            
+        }
         .main-content {
-            margin-left: 0px; /* Mesma largura da sidebar */            
+            margin-left: 0px; /* Mesma largura da sidebar */   
+            background-color: rgb(237, 237, 237);
+            height:100vh;
         } 
 
         .main-content2 {
             margin-left: 200px; /* Mesma largura da sidebar */
+            background-color: rgb(237, 237, 237);
         }
 
         .navhead{
@@ -31,17 +37,17 @@
         .alerts-overlay {
             position: fixed;
             top: 20px;
-            left: 50%;
+            left: 50%;            
             transform: translateX(-50%);
         }
 
-            .alerts-overlay .alert {
+            .alerts-overlay {
                 pointer-events: auto; /* permite clicar no X, links etc. */
                 opacity: 1;
                 transition: opacity .35s ease;
             }
 
-            .alerts-overlay.hide .alert {
+            .alerts-overlay.hide {
                 opacity: 0;
             }
     </style>
@@ -59,24 +65,15 @@
     </header>
 
     <div class="@(User.FindFirst(ClaimTypes.NameIdentifier)?.Value != null && !string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("idProjeto")) ? " container-fluid main-content" : "container-fluid main-content" )" style="@(!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("idProjeto")) ? "width: 89%" : "")">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 principal">
             <div id="alerts" class="alerts-overlay">
                 @await Html.PartialAsync("_Alerts")
-            </div>
-            <div id="erro" class="alerts-overlay">
-                @await Html.PartialAsync("_ErroAlert")
             </div>
             @RenderBody()
         </main>
 
     </div>
 
-
-   @*  <footer class="border-top footer text-muted main-content">
-        <div class="container">
-            &copy; 2024 - SGD - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -87,43 +84,33 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const box = document.getElementById('alerts');
-            const html = box.innerHTML.trim();
-            if (html) showAlert(html);   // chama seu showAlert apenas uma vez
+            const html = box.innerHTML.trim();            
         });
 
-        function showAlert(html) {
+        function showMensagem(msg,tipo) {
             const box = document.getElementById('alerts');
-            if (!html || !html.trim()) return;     // não exibe nada se vier vazio
-            box.innerHTML = html;
-            box.classList.remove('hide');
-            box.style.display = 'block';
 
-            // limpa timer anterior para não empilhar
-            clearTimeout(box._timer);
-            box._timer = setTimeout(() => {
-                box.classList.add('hide');           // inicia fade
-                setTimeout(() => {                   // remove após o fade
-                    box.style.display = 'none';
-                    box.innerHTML = '';
-                }, 400);
-            }, 5000);                              // 5s
-        }
+            box.className = "";            
+            box.classList.add('alert');
+            //box.classList.add('alerts-overlay');
 
-        function showMensagem(msg, tipo = "erro") {
-            const box = document.getElementById('mensagem');
-            if (!msg || !msg.trim()) return;
-
-            // limpa classes anteriores
-            box.className = "";
-
-            // aplica estilo conforme tipo
-            if (tipo === "sucesso") {
-                box.classList.add('alert', 'alert-success');
-            } else {
-                box.classList.add('alert', 'alert-danger');
+            if(tipo !== undefined){
+                if (!tipo) 
+                {
+                     box.classList.add('alert-success');
+                }else{
+                    box.classList.add('alert-danger');
+                }
             }
+            else 
+            {
+                box.classList.add('alert-danger');
+            }
+                        
+            box.style.position = 'fixed';
+            box.style.left = '50%';
 
-            box.innerHTML = msg;
+            box.innerHTML = `<div>${msg}</div>`;
             box.style.display = 'block';
 
             clearTimeout(box._timer);

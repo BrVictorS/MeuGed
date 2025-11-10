@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace SGD.Controllers
 {
-    public class VerifyController : Controller
+    public class VerifyController : BaseController
     {
         private readonly IApiInterface _api;
         private readonly IArquivoInterface _arquivo;
@@ -68,12 +68,11 @@ namespace SGD.Controllers
             return File(img, "image/png");
         }
 
-
         [HttpPost]
         public async Task<IActionResult> AtualizaImagem([FromBody] AtualizaImagemDto imagem)
         {
             var img = await _api.AtualizaImagem(imagem);
-            if (img.status)
+            if (img.Status)
             {
                 return Ok();
             }
@@ -88,7 +87,7 @@ namespace SGD.Controllers
         public async Task<IActionResult> MoveImagem([FromBody] MoveImagemDto imagem)
         {
             var img = await _api.MoveImagem(imagem);
-            if (img.status)
+            if (img.Status)
             {
                 return Ok();
             }
@@ -102,17 +101,15 @@ namespace SGD.Controllers
         public async Task<IActionResult> InsereDocumento([FromBody] InsereDocumentoDto documentoDto)
         {
             var insere = await _api.InsereDocumento(documentoDto);
-            if (insere.status)
-            {
-                TempData["ok"] = insere.Mensagem.ToString();
-                return PartialView("_Alerts");
-            }
-            else
-            {
-                TempData["erro"] = insere.Mensagem.ToString();
-                return PartialView("_Alerts");                
-            }
+            return Resposta(insere);
         }
+
+        public async Task<IActionResult> ExcluiDocumento([FromBody] InsereDocumentoDto documentoDto)
+        {
+            var insere = await _api.InsereDocumento(documentoDto);
+            return Resposta(insere);
+        }
+
 
         public async Task<IActionResult> InsereImagem([FromForm]InsereImagemDto insereImagemDto)
         {

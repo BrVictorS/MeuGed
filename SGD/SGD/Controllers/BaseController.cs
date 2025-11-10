@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGD.Dtos.Lote;
+using SGD.Dtos.Response;
+using System.Net;
 
 namespace SGD.Controllers
 {
@@ -17,5 +20,81 @@ namespace SGD.Controllers
             TempData["erro"] = mensagem;
             return PartialView("_Alerts");
         }
+
+        protected IActionResult Resposta( ServiceResponse<object> serviceResponse)
+        {
+            if (serviceResponse.Status)
+            {
+                TempData["ok"] = serviceResponse.Mensagem;
+            }else
+            {
+                TempData["erro"] = serviceResponse.Mensagem;
+            }
+
+            return PartialView("_Alerts",Json(serviceResponse.Dados));
+        }
+
+        protected IActionResult Resposta(ApiResponseDto serviceResponse)
+        {
+            if (serviceResponse.Status)
+            {
+                TempData["ok"] = serviceResponse.Mensagem;
+            }
+            else
+            {
+                TempData["erro"] = serviceResponse.Mensagem;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+
+            return PartialView("_Alerts");
+        }
+
+        public async Task<IActionResult> RespostaJson(ApiResponseDto apiResponse)
+        {
+            if (apiResponse.Status)
+            {
+                TempData["ok"] = apiResponse.Mensagem;
+            }
+            else
+            {
+                TempData["erro"] = apiResponse.Mensagem;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;               
+            }
+
+            var ret = Json(apiResponse);
+            return ret;
+        }
+
+        public async Task<IActionResult> RespostaJson(ServiceResponse<string> apiResponse)
+        {
+            if (apiResponse.Status)
+            {
+                TempData["ok"] = apiResponse.Mensagem;
+            }
+            else
+            {
+                TempData["erro"] = apiResponse.Mensagem;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+
+            var ret = Json(apiResponse);
+            return ret;
+        }
+        public async Task<IActionResult> RespostaJson(ServiceResponse<int> apiResponse)
+        {
+            if (apiResponse.Status)
+            {
+                TempData["ok"] = apiResponse.Mensagem;
+            }
+            else
+            {
+                TempData["erro"] = apiResponse.Mensagem;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+
+            var ret = Json(apiResponse);
+            return ret;
+        }
+
     }
 }

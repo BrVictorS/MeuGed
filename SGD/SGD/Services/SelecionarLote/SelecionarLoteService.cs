@@ -60,10 +60,10 @@ namespace SGD.Services.SelecionarLote
         public int GetFilaAnterior(int id)
         {
             var idSituacao = _context.Situacoes.ToList();
-            if (id == 5)
+            /*if (id == 5)
             {
                 id = 4;
-            }
+            }*/
 
             int x = idSituacao.IndexOf(idSituacao.FirstOrDefault(i => i.IdSituacao == id))-1;
 

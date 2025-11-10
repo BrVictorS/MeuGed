@@ -125,10 +125,10 @@ C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\staticwebas
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.csproj.Up2Date
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.dll
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\refint\GedDbApi.dll
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.pdb
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\GedDbApi.genruntimeconfig.cache
 C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\ref\GedDbApi.dll
+C:\Users\victor\Documents\GitHub\MeuGed\GedDb\GedDb\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

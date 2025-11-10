@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace SGD.Controllers
 {
-    public class GestaoController : Controller
+    public class GestaoController : BaseController
     {
         private readonly ILoteInterface _loteInterface;
         private readonly DataDbContext _context;
@@ -40,6 +40,12 @@ namespace SGD.Controllers
             };
 
             return PartialView("_EditarLoteModal", lote);
+        }
+
+        public async Task<IActionResult> GetLoteByIdAsync(int idLote)
+        {
+            var lote = await _loteInterface.GetLoteById(idLote);
+            return Resposta(lote);
         }
 
         public async Task<string> GetUltimoLoteProjeto(int id)

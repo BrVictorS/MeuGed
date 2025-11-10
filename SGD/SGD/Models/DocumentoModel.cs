@@ -7,11 +7,9 @@ namespace SGD.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
-        public int TipoDocId {  get; set; }
+        public int? TipoDocId {  get; set; }
         [JsonIgnore]
-        public TipoDocumentalModel TipoDoc { get; set; }
+        public TipoDocumentalModel? TipoDoc { get; set; }
         public int ProtocoloId { get; set; } // Chave estrangeira (FK)
         [JsonIgnore]
         public ProtocoloModel Protocolo { get; set; } // Propriedade de navegação

@@ -1,12 +1,15 @@
-﻿using SGD.Dtos.Lote;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SGD.Data;
+using SGD.Dtos.Lote;
 using SGD.Dtos.Response;
-using System.Net.Http;
 using SGD.Dtos.Verify;
+using SGD.Models;
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SGD.Services.API
 {
@@ -14,11 +17,14 @@ namespace SGD.Services.API
     {
         private readonly DataDbContext _context;
         private readonly string _apiPath;
+        private readonly HttpClient _httpClient;
 
-        public ApiService(DataDbContext context)
+        public ApiService(DataDbContext context, IHttpClientFactory factory)
         {
             _context = context;
             _apiPath = _context.Parametros.Where(p => p.Descricao == "APIDB").FirstOrDefault().Valor;
+            _httpClient = factory.CreateClient("apiClient");
+
         }
 
         public async Task<ApiResponseDto> AtualizaImagem(AtualizaImagemDto imagem)
@@ -56,7 +62,7 @@ namespace SGD.Services.API
             }
             catch (Exception ex)
             {
-                return new ApiResponseDto() { status = false, msg = "Falha na criação de metadados" };
+                return new ApiResponseDto("Falha na criação de metadados", true);
             }
         }
 
@@ -76,26 +82,23 @@ namespace SGD.Services.API
         {
             ServiceResponse<LoteApiDto> response = new ServiceResponse<LoteApiDto>();
             try
-            {                
-                using (var httpClient = new HttpClient())
+            {
+                
+
+                var chamada = await _httpClient.GetAsync($"api/Lote/{id}");
+
+                string resChamada = await chamada.Content.ReadAsStringAsync();
+
+                LoteApiDto resposta = System.Text.Json.JsonSerializer.Deserialize<LoteApiDto>(resChamada);
+
+                if (resposta.idLote == null)
                 {
-                    httpClient.BaseAddress = new Uri(_apiPath);
-                                         
-                    var chamada = await httpClient.GetAsync($"{_apiPath}/Lote/{id}");
-
-                    string resChamada = await chamada.Content.ReadAsStringAsync();
-
-                    LoteApiDto resposta = System.Text.Json.JsonSerializer.Deserialize<LoteApiDto>(resChamada);
-
-                    if (resposta.idLote == null)
-                    {
-                        response.Status = false;
-                        response.Mensagem = "Metadados não encontrados para o lote";
-                    }
-
-                    response.Dados = resposta;
-                    return response;
+                    response.Status = false;
+                    response.Mensagem = "Metadados não encontrados para o lote";
                 }
+
+                response.Dados = resposta;
+                return response;
             }
             catch (Exception ex)
             {
@@ -114,32 +117,27 @@ namespace SGD.Services.API
         {
             try
             {
-                using (var httpClient = new HttpClient())
+                var options = new JsonSerializerOptions
                 {
-                    httpClient.BaseAddress = new Uri(_apiPath);
+                    WriteIndented = true,
+                    Converters = { new JsonStringEnumConverter() }
+                };
 
-                    var options = new JsonSerializerOptions
-                    {
-                        WriteIndented = true,
-                        Converters = { new JsonStringEnumConverter() }
-                    };
+                string json = System.Text.Json.JsonSerializer.Serialize(dto, options);
 
-                    string json = System.Text.Json.JsonSerializer.Serialize(dto, options);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var chamada = await _httpClient.PutAsync(url, content);
 
-                    var chamada = await httpClient.PutAsync(url, content);
+                string resChamada = await chamada.Content.ReadAsStringAsync();
 
-                    string resChamada = await chamada.Content.ReadAsStringAsync();
+                ApiResponseDto resposta = System.Text.Json.JsonSerializer.Deserialize<ApiResponseDto>(resChamada);
 
-                    ApiResponseDto resposta = System.Text.Json.JsonSerializer.Deserialize<ApiResponseDto>(resChamada);
-
-                    return resposta;
-                }
+                return resposta;
             }
             catch (Exception ex)
             {
-                return new ApiResponseDto() { status = false, msg = "Falha ao atualizar dados" };
+                return new ApiResponseDto("Falha ao atualizar dados",true);
             }
         }
 
@@ -147,25 +145,82 @@ namespace SGD.Services.API
         {
             try
             {
-                //if (string.IsNullOrEmpty(documentoDto.documento))
-                //{
-                //    if ((bool)ApiGet(documentoDto, "Lote/").Result.Dados)
-                //    {
-                //        ApiPut(documentoDto, "api/Lote/InsereDocumento");
-                //    }
-                //}
+                //supostamente a etiqueta ja foi protocolada
+                bool exclusao = documentoDto.remover != null && documentoDto.remover == "1";
+                var protocolo = _context.Protocolos.Include(d=>d.Documento).FirstOrDefault(x => x.Etiqueta == long.Parse(documentoDto.documento));
 
-                var protocolo = _context.Protocolos.FirstOrDefault(x => x.Etiqueta == long.Parse(documentoDto.documento));
-                if (protocolo != null && protocolo.Documentos != null && protocolo.Documentos.Any())
+                if (protocolo == null)  //se nao nulo entao documento existe
                 {
-                    return new ApiResponseDto() { status = false, msg = "Etiqueta já possui dados indexados" };
+                    ProtocoloModel nProtocolo = new ProtocoloModel()
+                    {
+                        LoteId = int.Parse(documentoDto.LoteId),
+                        Etiqueta = long.Parse(documentoDto.documento)
+                        
+                    };
+
+                    protocolo = nProtocolo;
+                    try
+                    {
+                        await _context.Protocolos.AddAsync(nProtocolo);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        return new ApiResponseDto("Erro ao inserir protocolo", true);
+                    }
+                }
+                else if (protocolo != null && !exclusao)
+                {
+                    return new ApiResponseDto($"Esta estiqueta já foi associada  no lote { _context.Lote.First(l=>l.Id == protocolo.LoteId).NumLote}",true);
                 }
 
-                return await ApiPut(documentoDto, "api/Lote/InsereDocumento");
+
+
+                var indexacao = _context.Indexacao.Include(d=> d.Documento).Include(c=> c.Documento.Protocolo).Any(p =>p.Documento.Protocolo.Etiqueta == protocolo.Etiqueta);
+
+                if (indexacao)
+                {
+                    return new ApiResponseDto("Etiqueta já possui Indexação associada", true);
+                }
+
+                
+
+                if (exclusao)
+                {
+                    documentoDto.documento = "";
+                }
+
+                //se protocolo existe e nao possui documentos associados entao pode inserir
+                var salvaMongo = await ApiPut(documentoDto, "api/Lote/InsereDocumento"); // insere na api
+                if (!salvaMongo.Status)
+                {
+                    return salvaMongo;
+                }
+                //se salvou na api entao salva o documento
+
+                if (exclusao)
+                {
+                    _context.Remove(protocolo);
+                    await _context.SaveChangesAsync();
+                    return new ApiResponseDto("Documento excluido com sucesso!");
+                }
+
+                var novoDocumento = new DocumentoModel()
+                {
+                    ProtocoloId = protocolo.Id
+                };
+
+
+                var documentoSalvo =  _context.Documentos.Add(novoDocumento);
+
+                await _context.SaveChangesAsync();
+                return new ApiResponseDto("Documento salvo com sucesso!") { Dados =  documentoDto.documento};
             }
-            catch
+            catch(Exception ex)
             {
-                return new ApiResponseDto() { status = false, msg = "Falha ao inserir documento" };
+                documentoDto.documento = ""; //força inserir novo documento
+                await ApiPut(documentoDto, "api/Lote/InsereDocumento");
+                return new ApiResponseDto("Falha ao inserir documento", true);
             }
         }
 
@@ -181,21 +236,19 @@ namespace SGD.Services.API
             return await ApiPut(obj, "api/Lote/InsereImagem");
         }
 
-        public async Task<ApiResponseDto> ApiGet(object args,string url)
+        
+        public async Task<ApiResponseDto> ApiGet(string url)
         {
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.BaseAddress = new Uri(_apiPath);
+            
 
-                var chamada = await httpClient.GetAsync($"{_apiPath}/{args}");
+            var chamada = await _httpClient.GetAsync(url);
 
-                string resChamada = await chamada.Content.ReadAsStringAsync();
+            string resChamada = await chamada.Content.ReadAsStringAsync();
 
-                ApiResponseDto resposta = System.Text.Json.JsonSerializer.Deserialize<ApiResponseDto>(resChamada);
+            ApiResponseDto resposta = System.Text.Json.JsonSerializer.Deserialize<ApiResponseDto>(resChamada);
 
-          
-                return resposta;
-            }
+
+            return resposta;
         }
 
         public async Task<byte[]> GetImagemIndex(string documento)
@@ -208,6 +261,24 @@ namespace SGD.Services.API
 
             var imagemBytes = await response.Content.ReadAsByteArrayAsync();
             return imagemBytes;
+        }
+
+        [HttpPost]
+        public async Task<ApiResponseDto> GetCaminhoImagem(string idImagem)
+        {
+            var chamada = await _httpClient.GetAsync($@"/api/Lote/GetCaminhoImagem?imagem={idImagem}");
+            ApiResponseDto resposta = new ApiResponseDto();
+            string resChamada = await chamada.Content.ReadAsStringAsync();
+            try
+            {
+               resposta = System.Text.Json.JsonSerializer.Deserialize<ApiResponseDto>(resChamada);
+            }
+            catch
+            {
+                resposta = new ApiResponseDto() { Dados = resChamada };
+            }            
+
+            return resposta;
         }
     }
 }

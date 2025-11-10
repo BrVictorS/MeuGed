@@ -1,4 +1,4 @@
-﻿using LojaLivros.Services.Projeto;
+﻿
 using SGD.Dtos.Login;
 using SGD.Models;
 using SGD.Services.Home;
@@ -6,6 +6,7 @@ using SGD.Services.Sessao;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using SGD.Services.Projeto;
 
 namespace SGD.Controllers
 {

@@ -79,6 +79,22 @@
   },
   {
     "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "GetCaminhoImagem",
+    "RelativePath": "api/Lote/GetCaminhoImagem",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imagem",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
     "Method": "GetImagem",
     "RelativePath": "api/Lote/GetImagem",
     "HttpMethod": "GET",

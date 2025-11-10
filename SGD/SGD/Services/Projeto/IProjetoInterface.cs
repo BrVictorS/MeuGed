@@ -2,7 +2,7 @@
 using SGD.Dtos.Usuarios;
 using SGD.Models;
 
-namespace LojaLivros.Services.Projeto
+namespace SGD.Services.Projeto
 {
     public interface IProjetoInterface
     {

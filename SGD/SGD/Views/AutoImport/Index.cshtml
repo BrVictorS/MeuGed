@@ -1,0 +1,272 @@
+﻿@using SGD.Dtos.Processolote
+@model IEnumerable<SelecionarLoteDto>
+
+<body>
+    <div id="main" class="container-fluid mt-1">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Lotes para Seleção</h5>
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table id="tLotes" class="table table-hover align-middle">
+                                <tbody>
+                                    @foreach (var lote in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input lt-id="@lote.Id" class="form-check-input chk-lote" type="checkbox" value="">
+                                                </div>
+                                            </td>
+                                            <td class="fw-bold">@lote.NumLote</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card shadow-sm">
+                    <div id="painel-detalhes" class="card-body">
+                        <h5 class="card-title">Detalhes do Lote</h5>
+                        <hr>
+                        <table class="table table-hover align-middle">
+                            <tbody id="tbDetalhes">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+
+        <div class="row">
+            <span>
+                <button id="btnImportar" type="button" class="btn btn-primary">Iniciar importação</button>
+            </span>
+
+        </div>
+    </div>
+</body>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        height: 100vh;
+        overflow: hidden;
+
+    }
+    #main{
+        height:100vh;
+    }
+
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+    }
+
+    #painel-detalhes{
+        width:65%;
+    }
+
+    /* Aplica o scroll vertical apenas na tabela de lotes */
+    .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .table-hover tbody tr {
+        transition: background-color 0.2s ease-in-out;
+    }
+
+
+</style>
+<script>
+    const btImporta = document.getElementById('btnImportar');
+    const tbDetalhes = document.getElementById('tbDetalhes');
+
+    btImporta.addEventListener('click', async (e) => {
+        const checkboxesMarcados = document.querySelectorAll('#tLotes .chk-lote:checked');
+
+        // Usar .map() é uma forma mais limpa de obter os IDs
+        const idsDosLotes = Array.from(checkboxesMarcados).map(checkbox => {
+            return checkbox.getAttribute('lt-id');
+        });
+
+        console.log('Iniciando importação sequencial...');
+
+        // Este loop 'for...of' está CORRETO. Ele garante que um lote
+        // termine completamente antes do próximo começar.
+        for (const id of idsDosLotes) {
+            await importaLote(id);
+        }
+
+        console.log('Importação de todos os lotes concluída.');
+    });
+
+    async function processarComConcorrencia(fila, limiteConcorrencia, fn) {
+        // Cria uma cópia da fila para podermos usar .shift() sem modificar a original
+        const filaDeTrabalho = [...fila];
+        const promessas = []; // Array para armazenar as promessas dos workers
+
+        // Função que define um "worker"
+        const worker = async () => {
+            while (filaDeTrabalho.length > 0) {
+                // Pega o próximo item da fila de forma atômica
+                const item = filaDeTrabalho.shift();
+                if (item) {
+                    // Processa o item. A função 'fn' deve ter seu próprio try/catch
+                    // para que um erro não pare o worker.
+                    await fn(item);
+                }
+            }
+        };
+
+        // Inicia o número de workers definido pelo limite
+        for (let i = 0; i < limiteConcorrencia; i++) {
+            promessas.push(worker());
+        }
+
+        // Espera que todos os workers terminem (ou seja, a fila fique vazia)
+        await Promise.all(promessas);
+    }
+
+    async function processarLinhaImagem(linhaTr) {
+        const idImg = linhaTr.dataset.idImg;
+        const lote = linhaTr.dataset.idLote;
+        const celulaStatus = linhaTr.children[1];
+
+        const bodyData = new URLSearchParams();
+            bodyData.append('idImagem', idImg);
+            bodyData.append('loteId', lote);
+
+        try {
+            const response = await fetch(`/AutoImport/QuebraImagem`, {
+                method: "POST",
+                headers: {
+                //     "Content-Type": "application/json"
+                },
+                body: bodyData
+            });
+
+            const r = await response.text();
+            const data = JSON.parse(r);
+            if (!response.ok) {
+                
+
+                showMensagem(data.mensagem,true);
+            }
+            
+            if (data.status & data.mensagem !== "") {
+                celulaStatus.innerHTML = data.dados;
+                linhaTr.classList.add('processado-sucesso');
+            } else if (!data.status)
+            {
+                celulaStatus.innerHTML = data.mensagem;
+                linhaTr.classList.add('processado-sucesso');
+            }else{                
+                linhaTr.remove();
+            }
+
+        } catch (error) {
+            showMensagem(error,true);
+            celulaStatus.innerHTML = "Erro ao processar";
+            celulaStatus.classList.add('processado-erro'); // Feedback visual
+        }
+    }
+
+
+    async function importaLote(idLote) {
+        
+        let idFluxo = 0;
+        const resFluxo = await fetch('/AutoImport/InsereFluxo/', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(idLote)
+        });
+
+        if(!resFluxo.ok){
+            const errorText = await resFluxo.text();
+            showMensagem(errorText, true);
+            return;
+        }else{
+            const resultadoFluxo = await resFluxo.json();
+            idFluxo = resultadoFluxo['dados'];
+        }
+        
+
+
+        const response = await fetch('/AutoImport/GetImagens/', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(idLote)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            showMensagem(errorText, true);
+            // Lança um erro para que o loop principal (em btImporta) possa capturá-lo
+            throw new Error(`Falha ao buscar imagens do lote: ${errorText}`);
+        }
+
+        const resultado = await response.json();
+        if (resultado.length === 0) {            
+            return;
+        }
+
+        const fragmento = document.createDocumentFragment();
+
+        resultado.forEach(item => {
+            const nl = fragmento.appendChild(document.createElement('tr'));
+            nl.dataset.idImg = item.idImagem;
+            nl.dataset.idLote = idLote;
+            const cli = nl.insertCell();
+            cli.textContent = item.imagem;
+
+            const cpt = nl.insertCell();
+            cpt.textContent = item.protocolo;
+        });
+
+        
+        tbDetalhes.replaceChildren(fragmento);
+       
+        const linhasDeImagem = Array.from(tbDetalhes.children);
+        
+        const LIMITE_CONCORRENCIA = 1;
+        
+        await processarComConcorrencia(
+            linhasDeImagem,
+            LIMITE_CONCORRENCIA,
+            processarLinhaImagem
+        );  
+        
+        const bodyDataFluxo = new URLSearchParams();
+            bodyDataFluxo.append('idLote', idLote);
+            bodyDataFluxo.append('idFLuxo', idFluxo);
+
+        const resFinaliza = await fetch('/AutoImport/FinalizaFluxo/', {
+            method: "POST",
+            headers: {},
+            body: bodyDataFluxo
+        });
+
+        const res = await resFinaliza.text();
+
+
+        if(!resFinaliza.ok){
+            const errorText = res ;
+            showMensagem(errorText, true);
+            throw new Error(`Falha ao finalizar fluxo: ${errorText}`);
+        }else{
+            showMensagem(res);
+        }
+
+
+    }
+</script>

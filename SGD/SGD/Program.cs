@@ -1,25 +1,26 @@
-using LojaLivros.Services.Projeto;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
 using SGD.Data;
+using SGD.Filters;
+using SGD.Services.API;
 using SGD.Services.Arquivo;
 using SGD.Services.Autenticacao;
+using SGD.Services.Barcode;
 using SGD.Services.Fluxo;
 using SGD.Services.Home;
+using SGD.Services.Index;
 using SGD.Services.Lote;
 using SGD.Services.Preparo;
 using SGD.Services.Projeto;
 using SGD.Services.Scan;
-using SGD.Services.Sessao;
-using SGD.Services.Usuario;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using SGD.Services.SelecionarLote;
-using Microsoft.AspNetCore.Mvc.Razor;
+using SGD.Services.Sessao;
 using SGD.Services.TipoDocumento;
-using SGD.Services.API;
-using SGD.Filters;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Http.Features;
-using SGD.Services.Index;
+using SGD.Services.Usuario;
+using SGD.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,10 @@ builder.Services.AddDbContext<DataDbContext>(options =>
         sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
     }).EnableSensitiveDataLogging();
 });
+
+builder.Services.AddHttpClient("apiClient",client => {
+    client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("Api",""));
+});
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
 builder.Services.AddScoped<IHomeInterface, HomeService>();
@@ -59,6 +64,9 @@ builder.Services.AddScoped<ITipoDocumentoInterface, TipoDocumentoService>();
 builder.Services.AddScoped<IApiInterface, ApiService>();
 builder.Services.AddScoped<LoteSelecionado>();
 builder.Services.AddScoped<IIndexInterface,IndexService>();
+builder.Services.AddScoped<IBarcodeServiceInterface,BarcodeService>();
+//builder.Services.AddHostedService<LoteWorker>();
+
 
 builder.Services.Configure<FormOptions>(options =>
 {
@@ -83,7 +91,7 @@ builder.Services.AddSession(o =>
 {
     o.Cookie.HttpOnly = true;
     o.Cookie.IsEssential = true;
-    o.IdleTimeout = TimeSpan.FromMinutes(20); // Timeout adicionado
+    o.IdleTimeout = TimeSpan.FromMinutes(40); // Timeout adicionado
 });
 
 builder.Services.AddAutoMapper(typeof(Program));

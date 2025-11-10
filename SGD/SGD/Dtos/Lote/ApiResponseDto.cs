@@ -2,9 +2,25 @@
 
 namespace SGD.Dtos.Lote
 {
-    public class ApiResponseDto : ServiceResponse<bool>
+    public class ApiResponseDto : ServiceResponse<string>
     {
-        public bool status { get { return base.Status; } set { base.Status = value; } }
-        public string msg { get { return base.Mensagem; }set { base.Mensagem = value; } }
+
+        public ApiResponseDto()
+        {
+            
+        }
+
+        public ApiResponseDto(string msg)
+        {
+            base.Mensagem  = msg;
+        }
+        public ApiResponseDto(string mensagem, bool erro)
+        {
+            if (erro)
+            {
+                base.Status = false;
+            }
+           base.Mensagem = mensagem;
+        }
     }
 }

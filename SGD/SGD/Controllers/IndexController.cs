@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGD.Dtos.Index;
 using SGD.Models.ViewModels;
 using SGD.Services.API;
 using SGD.Services.Arquivo;
@@ -51,26 +52,45 @@ namespace SGD.Controllers
             }
         }
 
-        public async Task<IActionResult> InsereIndexacaoDocumento([FromBody] Dictionary<string,dynamic> valores)
+        [HttpPost]
+        public async Task<IActionResult> InsereIndexacaoDocumento([FromBody] IndexacaoDocumentoDto valores)
         {
-            if (string.IsNullOrEmpty(string.Concat(valores.Skip(3).Select(s => s.Value).ToList())))
-            {
-               
+            if (valores.metadados.Where(s=>string.IsNullOrEmpty(s.valor)).Count() == valores.metadados.Count())
+            {  
                 return Erro("Indexação do documento não pode ser em branco!");
-            }
-            ;
+            };
+
+            var insere = await _index.SalvarIndexaoDocumento(valores);
 
 
-            return Sucesso("Documento salvo com sucesso");
+            return Resposta(insere);
         }
 
+        [HttpPost]
         public async Task<IActionResult> GetIndexacaoDocumento([FromBody] string documento)
         {
             if (!string.IsNullOrEmpty(documento))
             {
                 var dados = await _index.GetIndexacaoDocumento(documento);
+                return Json(dados.Dados);
             }
             return Erro("Erro ao retornar indexação para o documento");
+        }
+
+        public async Task<IActionResult> FinalizaLote()
+        {
+            var response = await _fluxo.FinalizaFluxo(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value), HttpContext.Session.GetInt32("idFluxo") ?? 0, "");
+            if (response.Status)
+            {
+                HttpContext.Session.Remove("idFluxo");
+                TempData["ok"] = response.Mensagem.ToString();
+                return RedirectToAction("Index", "SelecionarLote", new { fila = 5 });
+            }
+            else
+            {
+                TempData["erro"] = response.Mensagem.ToString();
+                return PartialView("_Alerts");
+            }
         }
     }
 }

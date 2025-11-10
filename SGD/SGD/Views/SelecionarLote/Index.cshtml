@@ -2,33 +2,67 @@
 @using SGD.Dtos.Response
 @model ServiceResponse<List<SelecionarLoteDto>>;
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tLotes" class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">LOTE</th>
+                                    <th scope="col" class="text-end">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var lote in Model.Dados)
+                                {
+                                    <tr>
+                                        <td class="fw-bold">@lote.NumLote</td>
+                                        <td class="text-end">
+                                            @{
+                                                // Simplifica a lógica para definir a ação do link
+                                                var actionName = lote.IdSituacao == 5 ? "SelectVerify" : "SelectIndex";
+                                                switch (lote.IdSituacao)
+                                                {
+                                                    case 5:
+                                                        actionName = "SelectVerify";
+                                                        break;
+                                                    case 3:
+                                                        actionName = "SelectIndex";
+                                                        break;
 
-<table class="table table-striped table-hover">
-    <thead>
-        <th>LOTE</th>
-        <th></th>
-    </thead>
-    <tbody>
-        @foreach (var lote in Model.Dados)
-        {
-            <tr>
-                <td>@lote.NumLote</td>
-                <td>
-                    @if(lote.IdSituacao == 5){
-                        <a asp-controller="SelecionarLote" asp-action="SelectVerify" asp-route-id="@lote.Id">
-                            <button type="button" class="btn btn-warning">Editar</button>
-                        </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="SelecionarLote" asp-action="SelectIndex" asp-route-id="@lote.Id">
-                            <button type="button" class="btn btn-warning">Editar</button>
-                        </a>
-                    }
+                                                }
+                                            }
+                                            <a asp-controller="SelecionarLote" asp-action="@actionName" asp-route-id="@lote.Id"
+                                               class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-pencil-square me-1"></i> Editar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                </td>
-            </tr>
-        }
-    </tbody>
+<style>
+    body {
+        background-color: #f8f9fa; /* Um cinza claro para o fundo da página */
+    }
 
-</table>
+    .card {
+        border: none; /* Remove a borda padrão para um look mais limpo */
+        border-radius: 0.5rem; /* Bordas mais arredondadas */
+    }
+
+    /* Adiciona um efeito suave de transição ao passar o mouse sobre as linhas */
+    .table-hover tbody tr {
+        transition: background-color 0.2s ease-in-out;
+    }
+</style>

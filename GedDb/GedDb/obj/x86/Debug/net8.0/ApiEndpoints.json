@@ -1,0 +1,192 @@
+[
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "Get",
+    "RelativePath": "api/Lote",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[GedDb.Entities.Lote, GedDbApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "Create",
+    "RelativePath": "api/Lote",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lote",
+        "Type": "GedDb.Entities.Lote",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "Delete",
+    "RelativePath": "api/Lote/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "GetById",
+    "RelativePath": "api/Lote/{idLote}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idLote",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GedDb.Entities.Lote",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "GetCaminhoImagem",
+    "RelativePath": "api/Lote/GetCaminhoImagem",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imagem",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "GetImagem",
+    "RelativePath": "api/Lote/GetImagem",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imagem",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "GetImagemIndex",
+    "RelativePath": "api/Lote/GetImagemIndex",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "documento",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "SetSituacaoImagem",
+    "RelativePath": "api/Lote/imagem",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GedDbApi.Dto.SituacaoImagemUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "InsereDocumento",
+    "RelativePath": "api/Lote/InsereDocumento",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GedDbApi.Dto.InsereDocumentoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "InsereImagem",
+    "RelativePath": "api/Lote/InsereImagem",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GedDbApi.Dto.InsereImagemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GedDb.Controllers.LoteController",
+    "Method": "MoveImagem",
+    "RelativePath": "api/Lote/MoveImagem",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GedDbApi.Dto.MoveImagemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

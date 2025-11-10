@@ -87,6 +87,10 @@ namespace SGD.Data
                 .WithMany(p => p.UsuariosProjetos) // Relacionamento inverso (Permissao -> UsuarioPermissao)
                 .HasForeignKey(up => up.ProjetoId); // Chave estrangeira
 
+            modelBuilder.Entity<ProtocoloModel>()
+                .HasIndex(p => new { p.Etiqueta,p.LoteId})
+                .IsUnique();
+
 
             base.OnModelCreating(modelBuilder);
         }

@@ -3,47 +3,89 @@
   "WorkspaceRootPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\data\\datadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\data\\datadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\models\\indexacaodocumentomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\models\\indexacaodocumentomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\controllers\\selecionarlotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\controllers\\selecionarlotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\views\\shared\\components\\menu\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\views\\shared\\components\\menu\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "DockedHeight": 200,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DataDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Data\\DataDbContext.cs",
-              "RelativeDocumentMoniker": "SGD\\Data\\DataDbContext.cs",
-              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Data\\DataDbContext.cs",
-              "RelativeToolTip": "SGD\\Data\\DataDbContext.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAABsAAAA8AAAAAAAAAA==",
+              "Title": "BaseController.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Controllers\\BaseController.cs",
+              "RelativeDocumentMoniker": "SGD\\Controllers\\BaseController.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Controllers\\BaseController.cs",
+              "RelativeToolTip": "SGD\\Controllers\\BaseController.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAmwDMAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T13:53:16.132Z",
+              "WhenOpened": "2025-11-04T15:06:21.77Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "IndexacaoDocumentoModel.cs",
-              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Models\\IndexacaoDocumentoModel.cs",
-              "RelativeDocumentMoniker": "SGD\\Models\\IndexacaoDocumentoModel.cs",
-              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Models\\IndexacaoDocumentoModel.cs",
-              "RelativeToolTip": "SGD\\Models\\IndexacaoDocumentoModel.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAUAAAAoAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Program.cs",
+              "RelativeDocumentMoniker": "SGD\\Program.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Program.cs",
+              "RelativeToolTip": "SGD\\Program.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T13:47:20.05Z",
+              "WhenOpened": "2025-11-04T15:03:55.25Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Views\\Shared\\Components\\Menu\\Default.cshtml",
+              "RelativeDocumentMoniker": "SGD\\Views\\Shared\\Components\\Menu\\Default.cshtml",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Views\\Shared\\Components\\Menu\\Default.cshtml",
+              "RelativeToolTip": "SGD\\Views\\Shared\\Components\\Menu\\Default.cshtml",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAAAJIAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-04T14:45:25.31Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SelecionarLoteController.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Controllers\\SelecionarLoteController.cs",
+              "RelativeDocumentMoniker": "SGD\\Controllers\\SelecionarLoteController.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Controllers\\SelecionarLoteController.cs",
+              "RelativeToolTip": "SGD\\Controllers\\SelecionarLoteController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBIAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T14:44:20.569Z",
               "EditorCaption": ""
             }
           ]

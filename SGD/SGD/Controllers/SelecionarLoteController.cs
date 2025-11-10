@@ -19,7 +19,9 @@ namespace SGD.Controllers
         public IActionResult Index(int fila)
         {
             ServiceResponse<List<SelecionarLoteDto>> lotes = new ServiceResponse<List<SelecionarLoteDto>>();
-            if (fila == 3)
+            lotes = _selecionalote.GetLotesFila(fila).Result;
+
+            /*if (fila == 3)
             {
                lotes =  _selecionalote.GetLotesFila(5).Result;
             }
@@ -28,7 +30,7 @@ namespace SGD.Controllers
                 lotes = _selecionalote.GetLotesFila(6).Result;
             }
 
-            
+            */
 
             return View(lotes);
             

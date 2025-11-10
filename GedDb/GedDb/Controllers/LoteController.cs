@@ -73,6 +73,36 @@ namespace GedDb.Controllers
 
             return File(imgBytes, contentType);
         }
+        [HttpGet("GetCaminhoImagem")] 
+        public async Task<IActionResult> GetCaminhoImagem(string imagem)
+        {
+            var filter = Builders<Lote>.Filter.Eq("imagens._id", imagem);
+            var projection = Builders<Lote>.Projection
+                .Include(l => l.idLote)
+                .Include(l => l.NumLote)
+                .ElemMatch(l => l.Imagens, i => i.Id == imagem);
+
+            var result = await _lote.Find(filter)
+                .Project<Lote>(projection)
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return NotFound(new { status = false, msg = "Imagem não encontrada no lote" });
+
+            var imgPath = Path.Combine(
+                _database._arquivos,
+                result.idLote,
+                result.Imagens.First().Caminho
+                );
+
+            
+
+            if (string.IsNullOrEmpty(imgPath) || !System.IO.File.Exists(imgPath))
+                return NotFound(new { status = false, msg = "Imagem não encontrada no servidor" });
+
+            
+            return Ok(imgPath);
+        }
 
         [HttpGet("GetImagemIndex")]
         public async Task<IActionResult> GetImagemIndex(string documento)
