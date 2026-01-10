@@ -1,272 +1,355 @@
 ﻿@using SGD.Dtos.Processolote
 @model IEnumerable<SelecionarLoteDto>
 
-<body>
-    <div id="main" class="container-fluid mt-1">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">Lotes para Seleção</h5>
-                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                            <table id="tLotes" class="table table-hover align-middle">
-                                <tbody>
-                                    @foreach (var lote in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input lt-id="@lote.Id" class="form-check-input chk-lote" type="checkbox" value="">
-                                                </div>
-                                            </td>
-                                            <td class="fw-bold">@lote.NumLote</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="card shadow-sm">
-                    <div id="painel-detalhes" class="card-body">
-                        <h5 class="card-title">Detalhes do Lote</h5>
-                        <hr>
-                        <table class="table table-hover align-middle">
-                            <tbody id="tbDetalhes">
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="h-screen bg-gray-100 p-4 flex gap-4 overflow-hidden font-sans">
+
+    <div class="w-1/3 flex flex-col bg-white rounded-xl shadow-lg border border-gray-200">
+        <div class="p-4 border-b border-gray-100 bg-gray-50 rounded-t-xl flex justify-between items-center">
+            <h5 class="font-bold text-gray-700 flex items-center gap-2">
+                <i class="bi bi-list-check text-blue-600"></i> Seleção de Lotes
+            </h5>
+            <span class="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                @Model.Count() disponíveis
+            </span>
         </div>
 
-        <br />
+        <div class="flex-1 overflow-y-auto p-2">
+            <table class="min-w-full divide-y divide-gray-100" id="tLotes">
+                <thead class="bg-gray-50 sticky top-0 z-10">
+                    <tr>
+                        <th class="px-4 py-2 text-left">
+                            <input type="checkbox" id="checkAll" class="rounded text-blue-600 focus:ring-blue-500 border-gray-300">
+                        </th>
+                        <th class="px-4 py-2 text-left text-xs font-bold text-gray-500 uppercase">Lote</th>
+                        <th class="px-4 py-2 text-center text-xs font-bold text-gray-500 uppercase">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    @foreach (var lote in Model)
+                    {
+                        <tr class="hover:bg-blue-50 transition-colors group" id="row-lote-@lote.Id">
+                            <td class="px-4 py-3">
+                                <input lt-id="@lote.Id" lt-num="@lote.NumLote" class="chk-lote rounded text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer" type="checkbox">
+                            </td>
+                            <td class="px-4 py-3 text-sm font-semibold text-gray-700">
+                                @lote.NumLote
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="status-icon text-gray-300">
+                                    <i class="bi bi-circle"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-
-        <div class="row">
-            <span>
-                <button id="btnImportar" type="button" class="btn btn-primary">Iniciar importação</button>
-            </span>
-
+        <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-xl">
+            <button id="btnImportar" type="button"
+                    class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+                <i class="bi bi-play-circle-fill"></i> Iniciar Importação
+            </button>
         </div>
     </div>
-</body>
 
-<style>
-    body {
-        background-color: #f8f9fa;
-        height: 100vh;
-        overflow: hidden;
+    <div class="w-2/3 flex flex-col bg-white rounded-xl shadow-lg border border-gray-200">
+        <div class="p-4 border-b border-gray-100 bg-gray-50 rounded-t-xl flex justify-between items-center">
+            <div class="flex flex-col">
+                <h5 class="font-bold text-gray-700 flex items-center gap-2">
+                    <i class="bi bi-cpu text-purple-600"></i> Processamento
+                </h5>
+                <span id="status-text-header" class="text-xs text-gray-500 mt-1">Aguardando início...</span>
+            </div>
+            <div id="global-spinner" class="hidden">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-600"></div>
+            </div>
+        </div>
 
-    }
-    #main{
-        height:100vh;
-    }
+        <div class="flex-1 overflow-y-auto p-0 bg-slate-50 relative">
 
-    .card {
-        border: none;
-        border-radius: 0.5rem;
-    }
+            <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                <i class="bi bi-terminal-split text-6xl mb-4 opacity-20"></i>
+                <p>Selecione lotes e inicie a importação para ver os detalhes aqui.</p>
+            </div>
 
-    #painel-detalhes{
-        width:65%;
-    }
+            <table class="min-w-full divide-y divide-gray-200 hidden" id="tabelaDetalhesContainer">
+                <thead class="bg-gray-100 sticky top-0 shadow-sm">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imagem / Arquivo</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Protocolo / Resultado</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tbDetalhes" class="bg-white divide-y divide-gray-100">
+                </tbody>
+            </table>
+        </div>
 
-    /* Aplica o scroll vertical apenas na tabela de lotes */
-    .table-responsive {
-        max-height: 400px;
-        overflow-y: auto;
-    }
+        <div class="h-2 bg-gray-200 w-full mt-auto">
+            <div id="progress-bar" class="h-2 bg-gradient-to-r from-blue-500 to-purple-600 w-0 transition-all duration-300"></div>
+        </div>
+    </div>
+</div>
 
-    .table-hover tbody tr {
-        transition: background-color 0.2s ease-in-out;
-    }
-
-
-</style>
 <script>
-    const btImporta = document.getElementById('btnImportar');
-    const tbDetalhes = document.getElementById('tbDetalhes');
+    document.addEventListener('DOMContentLoaded', () => {
+        const btImporta = document.getElementById('btnImportar');
+        const tbDetalhes = document.getElementById('tbDetalhes');
+        const tableContainer = document.getElementById('tabelaDetalhesContainer');
+        const emptyState = document.getElementById('empty-state');
+        const statusHeader = document.getElementById('status-text-header');
+        const globalSpinner = document.getElementById('global-spinner');
+        const checkAll = document.getElementById('checkAll');
+        const progressBar = document.getElementById('progress-bar');
 
-    btImporta.addEventListener('click', async (e) => {
-        const checkboxesMarcados = document.querySelectorAll('#tLotes .chk-lote:checked');
-
-        // Usar .map() é uma forma mais limpa de obter os IDs
-        const idsDosLotes = Array.from(checkboxesMarcados).map(checkbox => {
-            return checkbox.getAttribute('lt-id');
+        // Check All funcionalidade
+        checkAll.addEventListener('change', (e) => {
+            const checkboxes = document.querySelectorAll('.chk-lote');
+            checkboxes.forEach(chk => chk.checked = e.target.checked);
         });
 
-        console.log('Iniciando importação sequencial...');
+        // --- LÓGICA DE IMPORTAÇÃO ---
 
-        // Este loop 'for...of' está CORRETO. Ele garante que um lote
-        // termine completamente antes do próximo começar.
-        for (const id of idsDosLotes) {
-            await importaLote(id);
-        }
+        btImporta.addEventListener('click', async (e) => {
+            const checkboxesMarcados = document.querySelectorAll('#tLotes .chk-lote:checked');
 
-        console.log('Importação de todos os lotes concluída.');
-    });
+            if (checkboxesMarcados.length === 0) {
+                alert("Por favor, selecione pelo menos um lote.");
+                return;
+            }
 
-    async function processarComConcorrencia(fila, limiteConcorrencia, fn) {
-        // Cria uma cópia da fila para podermos usar .shift() sem modificar a original
-        const filaDeTrabalho = [...fila];
-        const promessas = []; // Array para armazenar as promessas dos workers
+            // UI: Preparar para início
+            btImporta.disabled = true;
+            btImporta.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div> Processando...';
+            emptyState.classList.add('hidden');
+            tableContainer.classList.remove('hidden');
+            globalSpinner.classList.remove('hidden');
 
-        // Função que define um "worker"
-        const worker = async () => {
-            while (filaDeTrabalho.length > 0) {
-                // Pega o próximo item da fila de forma atômica
-                const item = filaDeTrabalho.shift();
-                if (item) {
-                    // Processa o item. A função 'fn' deve ter seu próprio try/catch
-                    // para que um erro não pare o worker.
-                    await fn(item);
+            const listaLotes = Array.from(checkboxesMarcados).map(checkbox => ({
+                id: checkbox.getAttribute('lt-id'),
+                num: checkbox.getAttribute('lt-num')
+            }));
+
+            console.log('Iniciando importação sequencial...');
+
+            for (const lote of listaLotes) {
+                // UI: Marca lote atual na lista esquerda
+                const rowLote = document.getElementById(`row-lote-${lote.id}`);
+                const statusIcon = rowLote.querySelector('.status-icon');
+
+                // Marca como "Em andamento"
+                statusIcon.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>';
+                statusIcon.className = 'status-icon text-blue-600';
+                rowLote.classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
+
+                // Atualiza Header direita
+                statusHeader.innerHTML = `Processando Lote: <span class="font-bold text-gray-800">${lote.num}</span>`;
+                progressBar.style.width = '5%'; // Início
+
+                try {
+                    await importaLote(lote.id);
+
+                    // Sucesso no lote
+                    statusIcon.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
+                    statusIcon.className = 'status-icon text-green-500';
+                    rowLote.classList.remove('border-blue-500', 'bg-blue-50');
+                    rowLote.classList.add('bg-green-50');
+
+                } catch (err) {
+                    console.error(err);
+                    // Erro no lote
+                    statusIcon.innerHTML = '<i class="bi bi-x-circle-fill"></i>';
+                    statusIcon.className = 'status-icon text-red-500';
+                    rowLote.classList.remove('border-blue-500', 'bg-blue-50');
+                    rowLote.classList.add('bg-red-50');
                 }
             }
-        };
 
-        // Inicia o número de workers definido pelo limite
-        for (let i = 0; i < limiteConcorrencia; i++) {
-            promessas.push(worker());
+            // Finalização Geral
+            console.log('Importação concluída.');
+            statusHeader.textContent = "Processo finalizado.";
+            btImporta.disabled = false;
+            btImporta.innerHTML = '<i class="bi bi-play-circle-fill"></i> Iniciar Importação';
+            globalSpinner.classList.add('hidden');
+            progressBar.style.width = '100%';
+        });
+
+        // --- FUNÇÕES DE LÓGICA (Mantidas e Adaptadas) ---
+
+        async function processarComConcorrencia(fila, limiteConcorrencia, fn) {
+            const filaDeTrabalho = [...fila];
+            const totalItems = fila.length;
+            let processedItems = 0;
+            const promessas = [];
+            const quebrou = null;
+            const worker = async () => {
+                while (filaDeTrabalho.length > 0) {
+                    const item = filaDeTrabalho.shift();
+                    if (item) {
+                       const q = await fn(item);
+
+                       if(!q & quebrou === null{
+                           quebrou = false;
+                       }
+                        // Atualiza barra de progresso
+                        processedItems++;
+                        const percent = (processedItems / totalItems) * 100;
+                        progressBar.style.width = `${percent}%`;
+                    }
+                }
+            };
+
+            for (let i = 0; i < limiteConcorrencia; i++) {
+                promessas.push(worker());
+            }
+
+            await Promise.all(promessas);
         }
 
-        // Espera que todos os workers terminem (ou seja, a fila fique vazia)
-        await Promise.all(promessas);
-    }
+        async function processarLinhaImagem(linhaTr) {
+            const idImg = linhaTr.dataset.idImg;
+            const lote = linhaTr.dataset.idLote;
+            const celulaStatus = linhaTr.children[1]; // Protocolo/Resultado
+            const celulaIcon = linhaTr.children[2]; // Status Icon
 
-    async function processarLinhaImagem(linhaTr) {
-        const idImg = linhaTr.dataset.idImg;
-        const lote = linhaTr.dataset.idLote;
-        const celulaStatus = linhaTr.children[1];
+            // Marca linha como processando
+            celulaIcon.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>';
 
-        const bodyData = new URLSearchParams();
+            // Scroll suave para mostrar o item sendo processado
+            linhaTr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            const bodyData = new URLSearchParams();
             bodyData.append('idImagem', idImg);
             bodyData.append('loteId', lote);
 
-        try {
-            const response = await fetch(`/AutoImport/QuebraImagem`, {
-                method: "POST",
-                headers: {
-                //     "Content-Type": "application/json"
-                },
-                body: bodyData
-            });
+            try {
+                const response = await fetch(`/AutoImport/QuebraImagem`, {
+                    method: "POST",
+                    body: bodyData
+                });
 
-            const r = await response.text();
-            const data = JSON.parse(r);
-            if (!response.ok) {
                 
 
-                showMensagem(data.mensagem,true);
+                const r = await response.text();
+                // Tenta parsear JSON, se falhar usa texto puro
+                let data = {};
+                try { data = JSON.parse(r); } catch { data = { status: false, mensagem: r }; }
+
+                if (data.status || (data.dados && data.mensagem !== "")) {
+                    // Sucesso
+                    celulaStatus.innerHTML = `<span class="text-green-700 font-medium">${data.dados || data.mensagem}</span>`;
+                    celulaIcon.innerHTML = '<i class="bi bi-check-lg text-green-600 text-lg"></i>';
+                    linhaTr.classList.add('bg-green-50');
+                    return true;
+                } else {
+                    // Erro lógico
+                    celulaStatus.innerHTML = `<span class="text-red-600 text-xs">${data.mensagem || "Erro desconhecido"}</span>`;
+                    celulaIcon.innerHTML = '<i class="bi bi-exclamation-triangle-fill text-red-500"></i>';
+                    linhaTr.classList.add('bg-red-50');
+                    return false;
+                }
+            } catch (error) {
+                // Erro de requisição
+                celulaStatus.innerHTML = `<span class="text-red-600 text-xs">${error.message}</span>`;
+                celulaIcon.innerHTML = '<i class="bi bi-wifi-off text-red-500"></i>';
+                linhaTr.classList.add('bg-red-100');
+                throw new Error();
             }
-            
-            if (data.status & data.mensagem !== "") {
-                celulaStatus.innerHTML = data.dados;
-                linhaTr.classList.add('processado-sucesso');
-            } else if (!data.status)
-            {
-                celulaStatus.innerHTML = data.mensagem;
-                linhaTr.classList.add('processado-sucesso');
-            }else{                
-                linhaTr.remove();
+        }
+
+        async function importaLote(idLote) {
+            // Limpa tabela direita para o novo lote
+            tbDetalhes.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-500"><div class="animate-spin inline-block rounded-full h-4 w-4 border-b-2 border-gray-500 mr-2"></div> Inicializando fluxo...</td></tr>`;
+
+            // 1. Inserir Fluxo
+            let idFluxo = 0;
+            const resFluxo = await fetch('/AutoImport/InsereFluxo/', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(idLote)
+            });
+
+            if (!resFluxo.ok) {
+                const errorText = await resFluxo.text();
+                showMensagem(`Erro ao criar fluxo: ${errorText}`,true);
+                throw new Error();
+            } else {
+                const resultadoFluxo = await resFluxo.json();
+                idFluxo = resultadoFluxo['dados'];
             }
 
-        } catch (error) {
-            showMensagem(error,true);
-            celulaStatus.innerHTML = "Erro ao processar";
-            celulaStatus.classList.add('processado-erro'); // Feedback visual
-        }
-    }
+            // 2. Buscar Imagens
+            tbDetalhes.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-500"><div class="animate-spin inline-block rounded-full h-4 w-4 border-b-2 border-gray-500 mr-2"></div> Buscando imagens...</td></tr>`;
 
+            const response = await fetch('/AutoImport/GetImagens/', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(idLote)
+            });
 
-    async function importaLote(idLote) {
-        
-        let idFluxo = 0;
-        const resFluxo = await fetch('/AutoImport/InsereFluxo/', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(idLote)
-        });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Falha ao buscar imagens: ${errorText}`);
+            }
 
-        if(!resFluxo.ok){
-            const errorText = await resFluxo.text();
-            showMensagem(errorText, true);
-            return;
-        }else{
-            const resultadoFluxo = await resFluxo.json();
-            idFluxo = resultadoFluxo['dados'];
-        }
-        
+            const resultado = await response.json();
 
+            // Limpa mensagem de loading
+            tbDetalhes.innerHTML = '';
 
-        const response = await fetch('/AutoImport/GetImagens/', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(idLote)
-        });
+            if (resultado.length === 0) {
+                tbDetalhes.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-gray-400 italic">Nenhuma imagem encontrada para este lote.</td></tr>`;
+                return;
+            }
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            showMensagem(errorText, true);
-            // Lança um erro para que o loop principal (em btImporta) possa capturá-lo
-            throw new Error(`Falha ao buscar imagens do lote: ${errorText}`);
-        }
+            // Preenche tabela
+            const fragmento = document.createDocumentFragment();
+            resultado.forEach(item => {
+                const nl = document.createElement('tr');
+                nl.className = "border-b border-gray-50 hover:bg-gray-50 transition-colors";
+                nl.dataset.idImg = item.idImagem;
+                nl.dataset.idLote = idLote;
 
-        const resultado = await response.json();
-        if (resultado.length === 0) {            
-            return;
-        }
+                nl.innerHTML = `
+                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-700 flex items-center gap-2">
+                        <i class="bi bi-file-earmark-image text-gray-400"></i> ${item.imagem}
+                    </td>
+                    <td class="px-6 py-3 text-sm text-gray-500">
+                        ${item.protocolo || "Aguardando..."}
+                    </td>
+                    <td class="px-6 py-3 text-right">
+                        <span class="text-gray-300"><i class="bi bi-hourglass"></i></span>
+                    </td>
+                `;
+                fragmento.appendChild(nl);
+            });
 
-        const fragmento = document.createDocumentFragment();
+            tbDetalhes.appendChild(fragmento);
+            const linhasDeImagem = Array.from(tbDetalhes.children);
 
-        resultado.forEach(item => {
-            const nl = fragmento.appendChild(document.createElement('tr'));
-            nl.dataset.idImg = item.idImagem;
-            nl.dataset.idLote = idLote;
-            const cli = nl.insertCell();
-            cli.textContent = item.imagem;
+            // 3. Processar Concorrência
+            const LIMITE_CONCORRENCIA = 1;
+            try{
+                const await processarComConcorrencia(linhasDeImagem, LIMITE_CONCORRENCIA, processarLinhaImagem);
+            }catch(err){
+                console.log(err);
+            }
 
-            const cpt = nl.insertCell();
-            cpt.textContent = item.protocolo;
-        });
-
-        
-        tbDetalhes.replaceChildren(fragmento);
-       
-        const linhasDeImagem = Array.from(tbDetalhes.children);
-        
-        const LIMITE_CONCORRENCIA = 1;
-        
-        await processarComConcorrencia(
-            linhasDeImagem,
-            LIMITE_CONCORRENCIA,
-            processarLinhaImagem
-        );  
-        
-        const bodyDataFluxo = new URLSearchParams();
+            // 4. Finalizar Fluxo
+            const bodyDataFluxo = new URLSearchParams();
             bodyDataFluxo.append('idLote', idLote);
             bodyDataFluxo.append('idFLuxo', idFluxo);
 
-        const resFinaliza = await fetch('/AutoImport/FinalizaFluxo/', {
-            method: "POST",
-            headers: {},
-            body: bodyDataFluxo
-        });
+            const resFinaliza = await fetch('/AutoImport/FinalizaFluxo/', {
+                method: "POST",
+                body: bodyDataFluxo
+            });
 
-        const res = await resFinaliza.text();
-
-
-        if(!resFinaliza.ok){
-            const errorText = res ;
-            showMensagem(errorText, true);
-            throw new Error(`Falha ao finalizar fluxo: ${errorText}`);
-        }else{
-            showMensagem(res);
+            if (!resFinaliza.ok) {
+                const errorText = await resFinaliza.text();
+                throw new Error(`Erro ao finalizar fluxo: ${errorText}`);
+            }
         }
-
-
-    }
+    });
 </script>

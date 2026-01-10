@@ -3,6 +3,7 @@ using SGD.Enums;
 using SGD.Models;
 using Microsoft.EntityFrameworkCore;
 using SGD.Dtos.Response;
+using SGD.Migrations;
 
 namespace SGD.Services.Fluxo
 {
@@ -67,16 +68,19 @@ namespace SGD.Services.Fluxo
                     }
 
                     Tuple<bool, int> valido = await ValidaFluxo(idLote, idSituacao);
-                    if (!valido.Item1 && valido.Item2 == 0)
+                    if (idUsuario != 1 && idUsuario != 2)
                     {
-                        response.Status = false;
-                        response.Mensagem = $"O lote {lote.NumLote} não está na fila selecionada!";
-                        return response;
-                    }
-                    else if (valido.Item1 && valido.Item2 > 0)
-                    {
-                        response.Dados = valido.Item2;
-                        return response;
+                        if (!valido.Item1 && valido.Item2 == 0)
+                        {
+                            response.Status = false;
+                            response.Mensagem = $"O lote {lote.NumLote} não está na fila selecionada!";
+                            return response;
+                        }
+                        else if (valido.Item1 && valido.Item2 > 0)
+                        {
+                            response.Dados = valido.Item2;
+                            return response;
+                        }
                     }
 
 
@@ -89,11 +93,17 @@ namespace SGD.Services.Fluxo
 
                     lote.Fluxos.Add(fluxo);
 
+                    ReabrirFila(lote,idSituacao);
+
                     await _context.SaveChangesAsync();
                     lote = await _context.Lote
                             .Include(l => l.Fluxos)
                             .FirstOrDefaultAsync(l => l.Id == idLote);
                     response.Dados = lote.Fluxos.LastOrDefault().Id;
+
+                    
+                    
+
                 }              
             }
             catch
@@ -110,6 +120,7 @@ namespace SGD.Services.Fluxo
             ServiceResponse<bool> response = new ServiceResponse<bool>();
             try
             {
+                numeroLote = int.Parse(numeroLote).ToString().PadLeft(6, '0');
                 var lote = await _context.Lote
                 .Include(l => l.Fluxos)
                 .FirstOrDefaultAsync(l => l.NumLote == numeroLote && l.ProjetoId == idProjeto);
@@ -120,12 +131,18 @@ namespace SGD.Services.Fluxo
 
                 var valida = await ValidaFluxo(lote.Id, idSituacao);
 
-                if (!valida.Item1)
+                if (idUsuario != 1 && idUsuario != 2)
                 {
-                    response.Status = false;
-                    response.Mensagem = $"O lote {numeroLote} não está na fila selecionada!";
-                    return response;
+
+                    if (!valida.Item1)
+                    {
+                        response.Status = false;
+                        response.Mensagem = $"O lote {numeroLote} não está na fila selecionada!";
+                        return response;
+                    }
+
                 }
+
 
 
                 var fluxo = new FluxoModel()
@@ -136,6 +153,8 @@ namespace SGD.Services.Fluxo
                     LoteId = lote.Id,
                     Observacao = observacao
                 };
+
+                lote = ReabrirFila(lote, idSituacao);
 
                 lote.Fluxos.Add(fluxo);
 
@@ -181,6 +200,49 @@ namespace SGD.Services.Fluxo
 
             Tuple<bool, int> response = new Tuple<bool, int>(valido, ultimoId);
             return response;
+        }
+
+        private LoteModel ReabrirFila(LoteModel lote,int idSituacao)
+        {
+            List<bool?> situacoesLote = new List<bool?>()
+                    {
+                        lote.Preparado,
+                        lote.Scaneado,
+                        lote.Importado,
+                        lote.Verificado,
+                        lote.Indexado,
+                        lote.Exportado
+                    };
+
+            int ordemSituacao = _context.Situacoes
+                .Where(s => s.IdSituacao == idSituacao)
+                .Select(s => s.Ordem)
+                .FirstOrDefault() ?? 0;
+
+            if (ordemSituacao == 0)
+            {
+                throw new Exception();
+            }
+
+
+            if (ordemSituacao >= 2) lote.Preparado = false;
+                              
+            // 2. Scaneado    
+            if (ordemSituacao >= 3) lote.Scaneado = false;
+                              
+            // 3. Importado   
+            if (ordemSituacao >= 4) lote.Importado = false;
+                              
+            // 4. Verificado  
+            if (ordemSituacao >= 5) lote.Verificado = false;
+                              
+            // 5. Indexado    
+            if (ordemSituacao >= 6) lote.Indexado = false;
+                              
+            // 6. Exportado   
+            if (ordemSituacao >= 7) lote.Exportado = false;
+
+            return lote;
         }
 
     }

@@ -51,8 +51,7 @@
 
   <ItemGroup>
     <Reference Include="Interop.DTKBarReaderLib">
-      <HintPath>..\..\..\GED\Fontes SGD SEDE- protocolo-cartonadas\SGD\bin\Debug\Interop.DTKBarReaderLib.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\GED\Fontes SGD SEDE- protocolo-cartonadas\SGD\bin\x86\Debug\Interop.DTKBarReaderLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

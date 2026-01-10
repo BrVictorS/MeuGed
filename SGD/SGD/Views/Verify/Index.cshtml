@@ -1,282 +1,245 @@
 ﻿@using SGD.Dtos.Lote
 @model LoteApiDto
-<body>      
-   <div class="app">
-        <div class="dashboard-grid">
-            <!-- Left Panel - Draggable Table -->
-            <div class="panel-dados">
-                <input id="idlote" type="hidden" value="@Model.idLote" />
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead class="table-header">
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody">
-                            @foreach (var imagem in Model.imagens)
-                            {
-                                <tr class="table-row"
-                                    draggable="true"
-                                    data-img="@imagem.id"
-                                    data-img-st="@imagem.situacao"
-                                    data-doc="@imagem.documentoId">
-                                    <td>
-                                        @imagem.documentoId
-                                    </td>
-                                    <td>
-                                        <div class="drag-handle">
-                                            <span class="grip-icon icon-grip"></span>
-                                            <span>@imagem.caminho</span>
-                                        </div>
-                                    </td>
-                                    <td>@imagem.situacao</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
-            <!-- Right Panel - Image Carousel -->
-            <div class="panel-img" id="viewport">
-                <img id="previewImg" src="" alt="Pré-visualização">
-            </div>            
+<div class="flex h-screen w-full bg-gray-100 overflow-hidden font-sans">
+
+    <input id="idlote" type="hidden" value="@Model.idLote" />
+    <input id="ilote" hidden value="@Model.idLote" />
+
+    <div class="w-96 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col shadow-lg z-10">
+        <div class="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+            <div>
+                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider">Imagens do Lote</h2>
+                <p class="text-xs text-gray-500">Arraste para reordenar</p>
+            </div>
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                @Model.imagens.Count()
+            </span>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center my-3 flex-wrap w-100 px-3">
-            <div class="btn-group shadow-sm rounded" role="group" aria-label="Ações do documento">
-                <button type="button" class="btn btn-outline-secondary" id="inseredoc"
-                        data-bs-toggle="modal" data-bs-target="#mdlDocumento">
-                    <i class="bi bi-file-earmark-plus"></i> Inserir Documento
-                </button>
+        <div class="flex-1 overflow-y-auto custom-scrollbar">
+            <table class="w-full text-sm text-left" id="tabelaImagens">
+                <thead class="text-xs text-gray-500 uppercase bg-gray-50 sticky top-0 z-10 shadow-sm">
+                    <tr>
+                        <th scope="col" class="px-4 py-3 w-12 text-center">Doc</th>
+                        <th scope="col" class="px-4 py-3">Arquivo</th>
+                        <th scope="col" class="px-4 py-3 text-right">Situação</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" class="divide-y divide-gray-100">
+                    @foreach (var imagem in Model.imagens)
+                    {
+                        // Definição de cores baseada na situação (Lógica visual)
+                        string rowClass = "hover:bg-blue-50 transition-colors cursor-move group";
+                        string statusColor = "text-gray-500";
 
-                <button type="button" id="btn-img-ruim" class="btn btn-outline-warning">
-                    <i class="bi bi-exclamation-triangle"></i> Imagem Ruim
-                </button>
+                        if (imagem.situacao == "OK") { statusColor = "text-green-600 font-bold"; }
+                        else if (imagem.situacao == "RUIM") { rowClass += " bg-red-50 hover:bg-red-100"; statusColor = "text-red-600 font-bold"; }
 
-                <button type="button" class="btn btn-outline-success">
-                    <i class="bi bi-diagram-3"></i> Planta
-                </button>
+                        <tr class="@rowClass table-row"
+                            draggable="true"
+                            data-img="@imagem.id"
+                            data-img-st="@imagem.situacao"
+                            data-doc="@imagem.documentoId"
+                            onclick="selecionarLinha(this, '@imagem.caminho')">
+                            <td class="px-4 py-3 text-center font-mono text-gray-600">
+                                @imagem.documentoId
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-3">
+                                    <i class="bi bi-grip-vertical text-gray-300 group-hover:text-gray-500"></i>
+                                    <span class="truncate max-w-[120px]" title="@imagem.caminho">@imagem.caminho</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-right @statusColor">
+                                @imagem.situacao
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                <button id="btnAddTif" type="button" class="btn btn-outline-info">
-                    <i class="bi bi-plus-circle"> Inserir imagem</i>
-                </button>
-                <input id="fileTif" type="file" accept=".tif,.tiff,image/tiff" multiple hidden>
+    <div class="flex-1 flex flex-col bg-slate-800 relative">
 
+        <div id="viewport" class="flex-1 flex items-center justify-center overflow-hidden p-4 relative">
+            <div id="empty-placeholder" class="text-center text-slate-500">
+                <i class="bi bi-image text-6xl mb-2 opacity-50"></i>
+                <p>Selecione uma imagem na lista</p>
             </div>
-            <a asp-action="FinalizaLote">
-                <button type="button" id="btnFinaliza" class="btn btn-primary shadow-sm rounded px-4 mt-2 mt-md-0">
-                <i class="bi bi-check2-circle"></i> Finalizar Lote
+
+            <img id="previewImg" src="" alt="Pré-visualização" class="max-w-full max-h-full object-contain shadow-2xl hidden transition-transform duration-200">
+        </div>
+
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-2xl p-2 flex items-center gap-2 z-20">
+
+            <button type="button" id="inseredoc" onclick="toggleModalDoc(true)"
+                    class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+                    title="Inserir Documento">
+                <i class="bi bi-file-earmark-plus text-blue-600 text-lg"></i>
+                <span class="hidden md:inline">Novo Doc</span>
             </button>
+
+            <div class="w-px h-6 bg-gray-300 mx-1"></div> <button type="button" id="btn-img-ruim"
+                                                                  class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-xl transition-colors"
+                                                                  title="Marcar como Imagem Ruim">
+                <i class="bi bi-exclamation-triangle text-lg"></i>
+                <span class="hidden md:inline">Ruim</span>
+            </button>
+
+            <button type="button" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-green-600 rounded-xl transition-colors"
+                    title="Definir como Planta">
+                <i class="bi bi-diagram-3 text-lg"></i>
+                <span class="hidden md:inline">Planta</span>
+            </button>
+
+            <div class="w-px h-6 bg-gray-300 mx-1"></div> <button id="btnAddTif" type="button" onclick="document.getElementById('fileTif').click()"
+                                                                  class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-xl transition-colors"
+                                                                  title="Upload de Imagem">
+                <i class="bi bi-upload text-lg"></i>
+                <span class="hidden md:inline">Upload</span>
+            </button>
+            <input id="fileTif" type="file" accept=".tif,.tiff,image/tiff" multiple hidden>
+
+            <a asp-action="FinalizaLote" class="ml-2">
+                <button type="button" id="btnFinaliza"
+                        class="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transition-all transform hover:-translate-y-0.5">
+                    <i class="bi bi-check2-circle text-lg"></i>
+                    Finalizar
+                </button>
             </a>
         </div>
-        <input id="ilote" hidden value="@Model.idLote"/>
-   </div>
-    <!-- Modal -->
-    <div class="modal fade" id="mdlDocumento" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Inserir documento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+</div>
+
+<div id="mdlDocumento" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="toggleModalDoc(false)"></div>
+
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-sm">
+
+                <div class="bg-white px-6 py-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-900">Inserir Documento</h3>
+                        <button onclick="toggleModalDoc(false)" class="text-gray-400 hover:text-gray-600">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="docNumero" class="block text-sm font-medium text-gray-700 mb-1">Número do Documento</label>
+                            <input id="docNumero" type="text" inputmode="numeric" maxlength="10"
+                                   class="block w-full rounded-lg border-gray-300 border px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-lg font-mono placeholder-gray-300"
+                                   placeholder="00000000">
+                            <p id="docErro" class="mt-2 text-sm text-red-600 hidden flex items-center gap-1">
+                                <i class="bi bi-info-circle-fill"></i> Informe entre 1 e 10 dígitos.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <label class="form-label">Número do documento</label>
-                    <input id="docNumero" class="form-control" inputmode="numeric" maxlength="10" pattern="\d*">
-                    <div id="docErro" class="text-danger mt-1" style="display:none;">Informe 1–10 dígitos.</div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btnSalvarDoc" type="button" class="btn btn-primary" disabled>Salvar</button>
+
+                <div class="bg-gray-50 px-6 py-4 flex flex-row-reverse gap-2">
+                    <button id="btnSalvarDoc" type="button" disabled
+                            class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto transition-all">
+                        Salvar
+                    </button>
+                    <button type="button" onclick="toggleModalDoc(false)"
+                            class="inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto transition-all">
+                        Cancelar
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+</div>
 
-        .main {
-            background-color: red;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        /* sem overflow:hidden */
-        .app {
-            display: grid;
-            grid-template-rows: 1fr auto; /* conteúdo + barra fixa visível */
-            height: 90vh;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 320px 200px; /* tabela fixa + painel que ocupa o resto */
-            height: 90vh; /* ocupa altura exata da tela */
-            width: 100vw; /* ocupa largura exata da tela */
-        }
-            .dashboard-grid > :nth-child(2n) {
-                justify-self: start;
-            }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            width: 100%; /* evita 100vw e barra horizontal */
-            min-height: 0; /* permite rolagem interna */
-        }
-
-        .panel-img, .panel-dados {
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 1px solid #e5e7eb;
-            overflow: auto;
-            padding: 1rem;
-        }
-
-        .table-row.selected {
-            background-color: #3b82f6; /* azul */
-            color: white; /* opcional, para melhor contraste */
-        }
-
-        .image-ok {
-            background-color: #00911e;
-            color: white;
-        }
-
-        .image-del {
-            background-color: #ff8945;
-            color: white;
-        }
-
-        .image-ruim {
-            background-color: red;
-            color: white;
-        }
-
-        .panel-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden; /* evita barras extras */
-            background-color: gray;
-        }
-
-        #previewImg {
-            max-width: 100%;
-            max-height: 100%;
-            height: auto;
-            object-fit: contain;
-            display: block;
-        }
-
-        /* Table Styles */
-        .table-container {
-            overflow: hidden;
-            border-radius: 0.5rem;
-            border: 1px solid #e5e7eb;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table-header {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        }
-
-            .table-header th {
-                padding: 1rem 1.5rem;
-                text-align: left;
-                font-size: 0.875rem;
-                font-weight: 600;
-                color: white;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-            }
-
-        .table-row {
-            cursor: move;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-            .table-row:hover {
-                background-color: #eff6ff;
-            }
-
-            .table-row.dragging {
-                /* opacity: 0.5; */
-                background-color: #dbeafe;
-                transform: scale(1.02);
-            }
-
-            .table-row.drag-over {
-                /* border-top: 3px solid #2563eb; */
-            }
-
-            .table-row td {
-                padding: 1rem 1.5rem;
-                white-space: nowrap;
-            }
-
-        .drag-handle {
-            display: flex;
-            align-items: center;
-        }
-
-        .grip-icon {
-            width: 16px;
-            height: 16px;
-            margin-right: 0.75rem;
-            color: #6b7280;
-        }
-
-        .table-hint {
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-
-        /* Icons using CSS */
-        .icon-grip::before {
-            content: "⋮⋮";
-            font-weight: bold;
-            letter-spacing: -2px;
-        }
-
-        .icon-chevron-left::before {
-            content: "‹";
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .icon-chevron-right::before {
-            content: "›";
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .icon-table::before {
-            content: "⊞";
-            font-size: 20px;
-        }
-
-        .icon-images::before {
-            content: "🖼";
-            font-size: 20px;
-        }
-    </style> 
-</body>
 <script src="~/js/verificacao.js" asp-append-version="true"></script>
+
+<script>
+    // Controle do Modal
+    function toggleModalDoc(show) {
+        const modal = document.getElementById('mdlDocumento');
+        const input = document.getElementById('docNumero');
+        const btnSalvar = document.getElementById('btnSalvarDoc');
+        const erroMsg = document.getElementById('docErro');
+
+        if (show) {
+            modal.classList.remove('hidden');
+            setTimeout(() => input.focus(), 100);
+        } else {
+            modal.classList.add('hidden');
+            input.value = '';
+            erroMsg.classList.add('hidden');
+            btnSalvar.disabled = true;
+        }
+    }
+
+    // Validação simples do input do modal
+    document.getElementById('docNumero').addEventListener('input', function(e) {
+        // Remove não números
+        this.value = this.value.replace(/\D/g, '');
+
+        const isValid = this.value.length > 0 && this.value.length <= 10;
+        const btnSalvar = document.getElementById('btnSalvarDoc');
+        const erroMsg = document.getElementById('docErro');
+
+        btnSalvar.disabled = !isValid;
+
+        if(this.value.length > 0 && !isValid) {
+            erroMsg.classList.remove('hidden');
+        } else {
+            erroMsg.classList.add('hidden');
+        }
+    });
+
+    // Função visual para selecionar linha e mostrar imagem
+    // (Isso complementa o verificacao.js, não o substitui)
+    function selecionarLinha(tr, caminhoImagem) {
+        // 1. Remove seleção anterior
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            row.classList.remove('bg-blue-100', 'border-l-4', 'border-blue-500');
+        });
+
+        // 2. Adiciona seleção atual
+        tr.classList.add('bg-blue-100', 'border-l-4', 'border-blue-500');
+
+        // 3. Atualiza Preview
+        const img = document.getElementById('previewImg');
+        const placeholder = document.getElementById('empty-placeholder');
+
+        // Simulação de caminho (ajuste conforme sua lógica real de rota de imagens)
+        // Se o caminho já for uma URL completa, use-a. Se for apenas nome, precise de path.
+        // Exemplo: /Imagens/LoteX/nome.tif
+
+        // Aqui assumo que o verificacao.js faz o load real,
+        // mas visualmente mostramos/escondemos o placeholder
+        if(caminhoImagem) {
+            placeholder.classList.add('hidden');
+            img.classList.remove('hidden');
+            // img.src = ... (O script verificacao.js deve cuidar disso)
+        }
+    }
+</script>
+
+<style>
+    /* Scrollbar personalizada para Webkit */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+</style>

@@ -34,11 +34,11 @@ namespace SGD.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Salvar(int idUsuario, int idLote)
+        public async Task<IActionResult> Salvar(int idUsuario, string idLote)
         {
             var idProjeto = int.Parse(HttpContext.Session.GetString("idProjeto"));
 
-            var loteApi = await _API.GetLote(idLote);
+            var loteApi = await _API.GetLote(int.Parse(idLote));
 
             if (loteApi.Status!)
             {
@@ -46,7 +46,7 @@ namespace SGD.Controllers
                 return View("Index");
             }
 
-            var response =  await _fluxo.InsereFluxo(idUsuario, idProjeto, idLote, 3);
+            var response =  await _fluxo.InsereFluxo(idUsuario, idProjeto, int.Parse(idLote), 3);
 
             if (response.Status)
             {                
@@ -75,7 +75,7 @@ namespace SGD.Controllers
             return View("Index");
         }
 
-        public async Task<ActionResult> GetLote([FromBody]string numLote, string idProjeto)
+        public async Task<ActionResult> GetLote([FromBody]string numLote)
         {
             var lote = await _fluxo.GetLoteByNum(numLote, HttpContext.Session.GetString("idProjeto"));
 

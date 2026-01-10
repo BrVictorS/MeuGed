@@ -75,7 +75,7 @@ namespace SGD.Controllers
             return Json(new
             {
                 sucesso = true,
-                metadado = new { name = metadado }
+                metadado = new { name = metadado,id = salvar.Dados}
             });
         }
     }

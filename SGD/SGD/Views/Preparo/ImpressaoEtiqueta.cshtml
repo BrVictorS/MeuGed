@@ -1,0 +1,184 @@
+﻿@using SGD.Dtos.Preparo
+@model List<EtiquetaCodBarrasDto>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+<style>
+    /* --- CSS PARA IMPRESSÃO (MODO RAZOR: Lembre-se de usar @@page e @@media) --- */
+
+    @@page {
+        size: A4;
+        margin: 0; /* Margem zero para controle total via CSS */
+    }
+
+    @@media print {
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        .sheet {
+            box-shadow: none !important;
+            margin: 0 !important;
+            page-break-after: always;
+        }
+    }
+
+    /* --- FOLHA A4 --- */
+    .sheet {
+        width: 210mm;
+        height: 296mm; /* Ajuste fino para evitar folha em branco extra */
+        background: white;
+        margin: 19px auto;
+        display: flex;
+        flex-wrap: wrap;
+        /* CÁLCULO DE MARGEM PARA CENTRALIZAR 126 ETIQUETAS:
+                       7 colunas * 26mm = 182mm de conteúdo.
+                       210mm (A4) - 182mm = 28mm sobra.
+                       Margem Esquerda/Direita = 14mm.
+
+                       18 linhas * 15mm = 270mm de conteúdo.
+                       297mm (A4) - 270mm = 27mm sobra.
+                       Margem Topo/Base = 13.5mm.
+                    */
+        padding-top: 13.5mm;
+        padding-left: 14mm;
+        padding-right: 14mm; /* Segurança */
+
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+        box-sizing: border-box; /* Garante que o padding conte no tamanho total */
+    }
+
+    /* --- ETIQUETA INDIVIDUAL (26mm x 15mm) --- */
+    .label {
+        width: 26mm;
+        height: 15mm;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* Borda pontilhada cinza claro para visualização.
+                       Geralmente remove-se na impressão se o papel já for cortado. */
+        border: 1px dotted #ccc;
+        overflow: hidden; /* Impede que código de barras grande quebre o layout */
+    }
+
+    @@media print {
+        .label {
+            /* Se o papel já tiver o corte, remova a borda abaixo */
+            border: none;
+            outline: none;
+        }
+    }
+
+    /* Ajustes finos para o código de barras caber em 26mm */
+    .barcode-container svg {
+        width: 950%; /* Tenta forçar o SVG a caber */
+        max-width: 24mm; /* Margem de segurança */
+    }
+
+    .barcode-number {
+        font-family: 'Arial', sans-serif;
+        font-size: 8px; /* Fonte bem pequena para caber */
+        font-weight: bold;
+        margin-top: 2px; /* Aproxima do código de barras */
+        line-height: 1;
+        letter-spacing: 0.5px;
+    }
+
+    .barcode-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+        /* Força o SVG a caber na etiqueta de 26mm */
+        .barcode-container svg {
+            width: 95% !important; /* Importante para sobrepor o width inline do JS */
+            height: auto !important;
+            max-height: 12mm; /* Deixa espaço para o número */
+            display: block;
+        }
+
+    /* Garante que a impressão não remova a tinta preta do código */
+    @@media print {
+        .barcode-container svg
+
+    {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    }
+
+</style>
+<body class="bg-gray-100">
+
+    <!-- MENU SUPERIOR -->
+    <div class="no-print top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center z-50">
+        <div>
+            <h1 class="text-xl font-bold text-gray-800">Etiquetas 26mm x 15mm</h1>
+            <p class="text-sm text-gray-500">Grid 7x18 (126 por página)</p>
+        </div>
+        <div class="flex gap-1">
+            <div class="text-sm bg-blue-50 text-blue-700 px-3 py-2 rounded">
+                Total: <span id="count-display" class="font-bold">0</span>
+            </div>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow flex items-center gap-2">
+                Imprimir
+            </button>
+        </div>
+    </div>
+   
+
+    <!-- AREA DE IMPRESSÃO -->
+    <div id="print-area">
+        @{
+            var lista = Model;
+            // Configuração para 26x15mm
+            var itensPorPagina = 126;
+            var totalPaginas = (int)Math.Ceiling((double)lista.Count / itensPorPagina);
+        }
+
+        @for (int i = 0; i < totalPaginas; i++)
+        {
+            var itensPagina = lista.Skip(i * itensPorPagina).Take(itensPorPagina);
+
+            <div class="sheet">
+                @foreach (var item in itensPagina)
+                {
+                    <div class="label">
+                        <div class="barcode-container flex flex-col items-center justify-center w-full h-full">
+                            <svg class="barcode"
+                                 jsbarcode-format="ITF"
+                                 jsbarcode-value="@item.CodigoBarras"
+                                 jsbarcode-width="1"
+                                 jsbarcode-height="20"
+                                 jsbarcode-margin="0"
+                                 jsbarcode-displayValue="false">
+                            </svg>
+                            <hr />
+                            <div class="barcode-number">@item.CodigoBarras</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <script>
+        // Inicializa os códigos de barra após o carregamento
+        window.onload = function() {
+            JsBarcode(".barcode").init();
+        };
+    </script>
+</body>

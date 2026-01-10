@@ -1,70 +1,89 @@
 ﻿@model SGD.Models.ViewModels.NovoLoteViewModel
 
-<div class="modal-header">
-    <h5 class="modal-title">Editar Lote</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div class="mb-6 text-left">
+    <h3 class="text-2xl font-bold text-gray-800">
+        @(Model.novoLote.Id > 0 ? "Editar Lote" : "Novo Lote")
+    </h3>
+    <p class="text-sm text-gray-500 mt-1">Preencha os dados abaixo para salvar.</p>
 </div>
 
-<div class="modal-body">
-    <form method="post" action="SalvarNovoLote">
-        <input  name="idProjeto" id="idProjeto" />
-        <input type="hidden" name="Id" value="@Model.novoLote.Id" />
+<form method="post" action="SalvarNovoLote" class="space-y-5">
 
-        <div class="btn-group" style="padding-bottom:10px">
-            <button id="btnprojeto" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Projeto
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <input type="hidden" name="Id" value="@Model.novoLote.Id" />
+
+    <div>
+        <label for="selectProjeto" class="block text-sm font-medium text-gray-700 mb-1">Projeto</label>
+        <div class="relative">
+            <select id="selectProjeto" name="idProjeto" onchange="buscarUltimoLote(this)"
+                    class="block w-full rounded-lg border border-gray-300 bg-white py-2.5 px-3 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm appearance-none transition-colors cursor-pointer">
+                <option value="" disabled selected>Selecione um projeto...</option>
                 @foreach (var projeto in Model.projetos)
                 {
-                    <li><a class="dropdown-item" data-id="@projeto.Id" onclick="selecionarItem()">@projeto.Nome</a></li>
+                    <option value="@projeto.Id">@projeto.Nome</option>
                 }
-            </ul>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                <i class="fas fa-chevron-down text-xs"></i>
+            </div>
         </div>
-        <div class="mb-3">            
-            <label class="form-label">Número do Lote</label>
-            <input type="text" name="NumLote" class="form-control" value="@Model.novoLote.NumLote" />
-            
+    </div>
+
+    <div>
+        <label for="inputNumLote" class="block text-sm font-medium text-gray-700 mb-1">Número do Lote</label>
+        <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                <i class="fas fa-hashtag text-xs"></i>
+            </div>
+            <input type="text" id="inputNumLote" name="NumLote" value="@Model.novoLote.NumLote"
+                   class="block w-full rounded-lg border border-gray-300 pl-8 py-2.5 px-3 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm placeholder-gray-400 transition-colors"
+                   placeholder="Ex: 00123" />
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Observação</label>
-            <textarea name="Observacao" class="form-control">@Model.novoLote.Observacao</textarea>
+    <div>
+        <label for="inputObs" class="block text-sm font-medium text-gray-700 mb-1">Observação</label>
+        <textarea id="inputObs" name="Observacao" rows="3"
+                  class="block w-full rounded-lg border border-gray-300 py-2 px-3 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm resize-none transition-colors placeholder-gray-400"
+                  placeholder="Informações adicionais...">@Model.novoLote.Observacao</textarea>
+    </div>
 
-        </div>
-
-        <button type="submit" class="btn btn-success">Salvar</button>
-    </form>
-</div>
-
-<style>
-    .btn-group{
-        width:200px
-    }
-
-</style>
+    <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-6">
+        <button type="button" onclick="fecharModal()"
+                class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors">
+            Cancelar
+        </button>
+        <button type="submit"
+                class="px-6 py-2 bg-green-600 border border-transparent rounded-lg text-sm font-medium text-white shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all transform hover:-translate-y-0.5">
+            Salvar
+        </button>
+    </div>
+</form>
 
 <script>
-    function selecionarItem() {
-        var textoSelecionado = event.target.innerText;
-        var projetoSelecionado = event.target.dataset.id
-        var botao = document.getElementById('btnprojeto');
-        var inpt = document.getElementsByName('NumLote')[0]; // pega o primeiro input com esse name
-        var idProjetoInput = document.getElementById('idProjeto'); // pega o input hidden
+    function buscarUltimoLote(selectElement) {
+        var projetoId = selectElement.value;
+        var inputLote = document.getElementById('inputNumLote');
 
-        botao.innerText = textoSelecionado;
-        botao.classList.add('dropdown-toggle'); // opcional: mantém seta
-        idProjetoInput.value = projetoSelecionado; // define o valor do campo idProjeto
+        if (!projetoId) return;
 
-        // Chama o endpoint com interpolação correta
-        fetch(`/Gestao/GetUltimoLoteProjeto?id=${projetoSelecionado}`)
-            .then(res => res.text()) // sua action retorna string
+        // Feedback visual de carregamento no input
+        inputLote.classList.add('bg-gray-50', 'animate-pulse');
+
+        fetch(`/Gestao/GetUltimoLoteProjeto?id=${projetoId}`)
+            .then(res => res.text())
             .then(data => {
-                inpt.value = data; // define o valor do input
-                console.log("Último lote:", data);
+                inputLote.value = data;
+
+                // Remove animação e dá um flash verde de sucesso
+                inputLote.classList.remove('bg-gray-50', 'animate-pulse');
+                inputLote.classList.add('bg-green-50', 'text-green-700');
+                setTimeout(() => {
+                    inputLote.classList.remove('bg-green-50', 'text-green-700');
+                }, 500);
             })
             .catch(err => {
                 console.error('Erro ao buscar lote:', err);
+                inputLote.classList.remove('bg-gray-50', 'animate-pulse');
             });
     }
 </script>

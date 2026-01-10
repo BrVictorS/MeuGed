@@ -57,6 +57,9 @@ namespace SGD.Services.TipoDocumento
                 metadadoModel.Nome = metadado;
                 var salvar = _context.Metadados.Add(metadadoModel);
                 await _context.SaveChangesAsync();
+
+                response.Dados = _context.Metadados.ToList().Last().Id.ToString();
+
             }
             catch
             {

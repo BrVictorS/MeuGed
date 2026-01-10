@@ -1,68 +1,119 @@
 ﻿@using SGD.Dtos.Processolote
 @using SGD.Dtos.Response
-@model ServiceResponse<List<SelecionarLoteDto>>;
+@model ServiceResponse<List<SelecionarLoteDto>>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="tLotes" class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">LOTE</th>
-                                    <th scope="col" class="text-end">AÇÕES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var lote in Model.Dados)
-                                {
-                                    <tr>
-                                        <td class="fw-bold">@lote.NumLote</td>
-                                        <td class="text-end">
-                                            @{
-                                                // Simplifica a lógica para definir a ação do link
-                                                var actionName = lote.IdSituacao == 5 ? "SelectVerify" : "SelectIndex";
-                                                switch (lote.IdSituacao)
-                                                {
-                                                    case 5:
-                                                        actionName = "SelectVerify";
-                                                        break;
-                                                    case 3:
-                                                        actionName = "SelectIndex";
-                                                        break;
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div class="max-w-4xl mx-auto">
 
-                                                }
-                                            }
-                                            <a asp-controller="SelecionarLote" asp-action="@actionName" asp-route-id="@lote.Id"
-                                               class="btn btn-outline-primary btn-sm">
-                                                <i class="bi bi-pencil-square me-1"></i> Editar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+        <!-- Cartão Principal -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+
+            <!-- Cabeçalho do Card -->
+            <div class="px-6 py-5 border-b border-gray-100 bg-white flex justify-between items-center">
+                <div>
+                    @{
+
+
+
+                        var rt = @Context.Request.Query["fila"].ToString();
+                        if (rt == "5")
+                        {
+                            <h3 class="text-lg font-bold text-gray-900">Verificação</h3>
+                        }
+                        else if (rt == "6")
+                        {
+                            <h3 class="text-lg font-bold text-gray-900">Indexação</h3>
+
+                        }
+
+
+                    }
                 </div>
+                <div class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                    @Model.Dados.Count() Pendentes
+                </div>
+            </div>
+
+            <!-- Tabela -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Número do Lote
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Etapa
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Ação
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @if (Model.Dados != null && Model.Dados.Any())
+                        {
+                            foreach (var lote in Model.Dados)
+                            {
+                                // Lógica de Destino
+                                var actionName = "SelectIndex"; // Padrão
+                                var etapaNome = "Indexação";
+                                var badgeClass = "bg-blue-100 text-blue-800"; // Azul para Index
+
+                                if (lote.IdSituacao == 5)
+                                {
+                                    actionName = "SelectVerify";
+                                    etapaNome = "Verificação";
+                                    badgeClass = "bg-purple-100 text-purple-800"; // Roxo para Verify
+                                }
+                                else if (lote.IdSituacao == 3)
+                                {
+                                    actionName = "SelectIndex";
+                                    etapaNome = "Indexação";
+                                }
+
+                                <tr class="hover:bg-gray-50 transition-colors duration-150 group">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                           
+                                            <div class="ml-4">
+                                                <div class="text-sm font-bold text-gray-900">@lote.NumLote</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium @badgeClass">
+                                            @etapaNome
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a asp-controller="SelecionarLote" asp-action="@actionName" asp-route-id="@lote.Id"
+                                           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            <i class="fa-solid fa-pencil"></i>    Abrir
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="px-6 py-10 text-center text-gray-500">
+                                    <div class="flex flex-col items-center justify-center">
+                                        <i class="bi bi-inbox text-4xl mb-3 text-gray-300"></i>
+                                        <p>Nenhum lote disponível para seleção no momento.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rodapé (Opcional) -->
+            <div class="bg-gray-50 px-6 py-3 border-t border-gray-200 text-xs text-gray-500 text-right">
+                MIGED
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    body {
-        background-color: #f8f9fa; /* Um cinza claro para o fundo da página */
-    }
-
-    .card {
-        border: none; /* Remove a borda padrão para um look mais limpo */
-        border-radius: 0.5rem; /* Bordas mais arredondadas */
-    }
-
-    /* Adiciona um efeito suave de transição ao passar o mouse sobre as linhas */
-    .table-hover tbody tr {
-        transition: background-color 0.2s ease-in-out;
-    }
-</style>

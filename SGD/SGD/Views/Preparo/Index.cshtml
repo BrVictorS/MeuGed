@@ -1,65 +1,98 @@
 ﻿@model SGD.Models.ViewModels.PreparoViewModel
 
-<div class="container mt-4">
-    <div class="card shadow-sm mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">Preparo</h5>
-        </div>
-        <div class="card-body">
-            <form id="formLotes" method="post" action="/Preparo/SalvarPreparo">
-                <input type="hidden" name="jsonLotes" id="jsonLotes" />
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white shadow-sm rounded-lg mb-6 border border-gray-200">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+                <h5 class="text-lg font-medium text-gray-900">Preparo</h5>
+            </div>
 
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-5">
-                        <label for="idlote" class="form-label">Lote</label>
-                        <input type="text" class="form-control" id="idlote" placeholder="Digite o número do lote" />
+            <div class="p-6">
+                <form id="formLotes" method="post" action="/Preparo/SalvarPreparo">
+                    <input type="hidden" name="jsonLotes" id="jsonLotes" />
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+
+                        <div class="md:col-span-5">
+                            <label for="idlote" class="block text-sm font-medium text-gray-700 mb-1">Lote</label>
+                            <input type="text"
+                                   class="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
+                                   id="idlote"
+                                   placeholder="Digite o número do lote" />
+                        </div>
+
+                        <div class="md:col-span-5">
+                            <label for="idUsuario" class="block text-sm font-medium text-gray-700 mb-1">Usuário</label>
+                            <select id="idUsuario"
+                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm bg-white">
+                                <option value="" selected disabled>Selecione um usuário...</option>
+                                @foreach (var usuario in Model.Usuarios)
+                                {
+                                    <option value="@usuario.Id">@usuario.Nome</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <button type="button"
+                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors"
+                                    id="btnAdicionar">
+                                <i class="bi bi-plus-circle mr-2"></i> Adicionar
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="col-md-5">
-                        <label for="idUsuario" class="form-label">Usuário</label>
-                        <select id="idUsuario" class="form-select">
-                            <option value="" selected disabled>Selecione um usuário...</option>
-                            @foreach (var usuario in Model.Usuarios)
-                            {
-                                <option value="@usuario.Id">@usuario.Nome</option>
-                            }
-                        </select>
-                    </div>
+                    <hr class="my-6 border-gray-200" />
 
-                    <div class="col-md-2 d-grid">
-                        <button type="button" class="btn btn-primary" id="btnAdicionar">
-                            <i class="bi bi-plus-circle"></i> Adicionar
+                    <div class="text-justify">
+                        <a asp-controller="Preparo" asp-action="ImpressaoEtiqueta">
+                            <button type="button"
+                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors"
+                                    id="btnEtiquetas">
+                                <i class="bi bi-plus-circle mr-2"></i> Imprimir Etiquetas
+                            </button>
+                        </a>
+
+                        <button type="submit"
+                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors">
+                            <i class="bi bi-save mr-2"></i> Salvar Preparo
                         </button>
                     </div>
-                </div>
-
-                <hr />
-                <div class="text-end">
-                    <button type="submit" class="btn btn-success btn-lg">
-                        <i class="bi bi-save"></i> Salvar Preparo
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
+
+
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">
-            <h5 class="mb-0">Lotes Adicionados</h5>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0" id="tabelaLotes">
-                    <thead class="table-light">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200" id="tabelaLotes">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col">Lote</th>
-                            <th scope="col">Operador</th>
-                            <th scope="col" class="text-center">Ações</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Lote
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Operador
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ações
+                            </th>
                         </tr>
                     </thead>
-                    <tbody id="lotesBody">
-                        <tr id="emptyRow">
-                            <td colspan="3" class="text-center text-muted">Nenhum lote adicionado.</td>
+
+                    <tbody id="lotesBody" class="bg-white divide-y divide-gray-200">
+                        <tr id="emptyRow" class="hover:bg-gray-50 transition-colors duration-150">
+                            <td colspan="3" class="px-6 py-10 text-center">
+                                <div class="flex flex-col items-center justify-center text-gray-400">
+                                    <i class="fa-regular fa-folder-open text-3xl mb-2 opacity-50"></i>
+                                    <span class="text-sm italic">Nenhum lote adicionado até o momento.</span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,31 +101,6 @@
     </div>
 </div>
 
-<style>
-    /* Define uma altura máxima para o corpo da tabela e
-          habilita o scroll vertical.
-        */
-    #lotesBody {
-        display: block; /* Essencial para o scroll no tbody */
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    /* Força o cabeçalho e as linhas do corpo a terem
-          o mesmo layout de tabela para alinhar as colunas.
-        */
-    #tabelaLotes thead, #tabelaLotes tbody tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    /* Ajusta o tamanho da coluna de ações */
-    #tabelaLotes th:nth-child(3),
-    #tabelaLotes td:nth-child(3) {
-        width: 120px; /* Largura fixa para a coluna de Ações */
-    }
-</style>
 
 <script>
     // Espera o DOM carregar antes de executar o script
@@ -105,7 +113,7 @@
         const btnAdicionar = document.getElementById('btnAdicionar');
         const lotesBody = document.getElementById('lotesBody');
         const emptyRow = document.getElementById('emptyRow');
-        
+
         const hiddenJsonLotes = document.getElementById('jsonLotes');
 
         // 2. Lógica para "Adicionar"
@@ -116,77 +124,88 @@
 
             // Validação
             if (!lote || !idUsuario) {
-                showMensagem("Por favor, preencha o lote e selecione um usuário.",true;
+                // Correção de sintaxe: adicionei o fecha parênteses faltante
+                showMensagem("Por favor, preencha o lote e selecione um usuário.", true);
                 return;
-            }            
+            }
 
             // Remove a linha "vazio" se ela existir
-            if (emptyRow) {
-                emptyRow.remove();
+            if (document.getElementById('emptyRow')) {
+                document.getElementById('emptyRow').remove();
             }
 
             // Cria a nova linha
             const novaLinha = document.createElement('tr');
+            // Mantém a classe Tailwind para garantir alinhamento das colunas
+            novaLinha.className = "hover:bg-gray-50 transition-colors";
+
             // Armazena os dados na própria linha
             novaLinha.setAttribute('data-id-usuario', idUsuario);
             novaLinha.setAttribute('data-lote', lote);
 
             novaLinha.innerHTML = `
-                <td>${lote.toString().padStart(6, '0')}</td>
-                <td>${nomeUsuario}</td>
-                <td class="text-center">
-                    <button type="button" class="btn btn-outline-danger btn-sm btn-remover">
-                        <i class="bi bi-trash"></i>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${lote.toString().padStart(6, '0')}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${nomeUsuario}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button type="button"
+                            class="inline-flex items-center gap-x-2 px-3 py-1.5 text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-sm btn-remover">
+                        <i class="fa-solid fa-trash text-xs"></i>
+                        <span>Remover</span>
                     </button>
                 </td>
             `;
-            
+
             lotesBody.appendChild(novaLinha);
 
             // Limpa os campos
             inputLote.value = '';
             selectUsuario.value = '';
-            inputLote.focus(); // Foca no campo lote para o próximo
+            inputLote.focus();
         });
 
         // 3. Lógica para "Remover" (Usando Delegação de Evento)
-        // Ouve cliques no <tbody>, mas só reage se o clique foi
-        // em um botão com a classe .btn-remover
         lotesBody.addEventListener('click', function (e) {
-            // .closest() encontra o ancestral mais próximo que bate com o seletor
             const removeButton = e.target.closest('.btn-remover');
 
             if (removeButton) {
-                removeButton.closest('tr').remove(); // Remove a linha (tr)
+                removeButton.closest('tr').remove();
+
+                // Opcional: Se não houver mais linhas, recriar o emptyRow (melhoria de UX)
+                if (lotesBody.children.length === 0) {
+                     const emptyTR = document.createElement('tr');
+                     emptyTR.id = "emptyRow";
+                     emptyTR.className = "table w-full table-fixed";
+                     emptyTR.innerHTML = '<td colspan="3" class="px-6 py-4 text-center text-gray-400 italic">Nenhum lote adicionado.</td>';
+                     lotesBody.appendChild(emptyTR);
+                }
             }
         });
 
         // 4. Lógica para "Salvar" (Submit do Formulário)
         formLotes.addEventListener('submit', function (e) {
-            // Seleciona APENAS as linhas de dados (dentro do tbody)
-            const linhas = lotesBody.querySelectorAll('tr');
+            // Seleciona APENAS as linhas que possuem dados (ignorando o emptyRow se houver)
+            // Filtra linhas que tenham o atributo data-lote
+            const linhas = Array.from(lotesBody.querySelectorAll('tr')).filter(tr => tr.hasAttribute('data-lote'));
             const dados = [];
 
             linhas.forEach(linha => {
-                // Pega os dados armazenados na linha
                 const numeroLote = linha.getAttribute('data-lote');
                 const idUsuario = linha.getAttribute('data-id-usuario');
 
                 if (numeroLote && idUsuario) {
                     dados.push({
                         NumeroLote: numeroLote,
-                        IdUsuario: parseInt(idUsuario, 10) // 10 = base decimal
+                        IdUsuario: parseInt(idUsuario, 10)
                     });
                 }
             });
 
             if (dados.length === 0) {
-                e.preventDefault(); // Impede o envio do formulário
-                showMensagem("Adicione pelo menos um lote antes de salvar.",true;
+                e.preventDefault();
+                showMensagem("Adicione pelo menos um lote antes de salvar.", true);
                 return;
             }
 
-            // Coloca o JSON no campo oculto para envio
             hiddenJsonLotes.value = JSON.stringify(dados);
         });
     });

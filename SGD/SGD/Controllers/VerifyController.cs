@@ -35,7 +35,7 @@ namespace SGD.Controllers
             if (!lote.Status)
             {
                 TempData["erro"] = lote.Mensagem;
-                return RedirectToAction("Index", "SelecionarLote");
+                return RedirectToAction("Index", "SelecionarLote", new { fila = 5 });
             }
             var idUsuario = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var Fluxo = await _fluxo.InsereFluxo(idUsuario, int.Parse(HttpContext.Session.GetString("idProjeto")), id, 5);

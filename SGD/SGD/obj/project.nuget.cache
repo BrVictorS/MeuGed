@@ -125,9 +125,45 @@
   ],
   "logs": [
     {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "O pacote 'Magick.NET-Q16-AnyCPU' 14.8.2 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-6hjr-v6g4-3fm8",
+      "projectPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
+      "libraryId": "Magick.NET-Q16-AnyCPU",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "O pacote 'Magick.NET-Q16-AnyCPU' 14.8.2 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-7rvh-xqp3-pr8j",
+      "projectPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
+      "libraryId": "Magick.NET-Q16-AnyCPU",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
       "code": "NU1902",
       "level": "Warning",
       "message": "O pacote 'Magick.NET-Q16-AnyCPU' 14.8.2 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-9pp9-cfwx-54rm",
+      "projectPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
+      "libraryId": "Magick.NET-Q16-AnyCPU",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "O pacote 'Magick.NET-Q16-AnyCPU' 14.8.2 tem uma moderado vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-p27m-hp98-6637",
       "projectPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\SGD.csproj",

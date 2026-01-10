@@ -55,11 +55,31 @@ namespace SGD.Controllers
             return idlote;
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> SalvarNovoLote(LoteModel lt, [FromForm] int idProjeto)
+        //{
+        //    int idUsuario = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+        //    int indx = 5;
+        //    while (indx < 1001)
+        //    {
+        //        await _loteInterface.SalvarNovoLote(new LoteModel()
+        //        {
+        //            NumLote = indx.ToString().PadLeft(6, '0'),
+        //            Observacao = ""
+        //        }, idProjeto, idUsuario);
+        //        indx++;
+        //     }
+
+
+        //    return RedirectToAction("ReceberLote");
+        //}
+
         [HttpPost]
         public async Task<IActionResult> SalvarNovoLote(LoteModel lt, [FromForm] int idProjeto)
-        {            
+        {
             int idUsuario = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            await _loteInterface.SalvarNovoLote(lt, idProjeto,idUsuario);
+            await _loteInterface.SalvarNovoLote(lt, idProjeto, idUsuario);
             return RedirectToAction("ReceberLote");
         }
 

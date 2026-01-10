@@ -1,5 +1,6 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\js\autoImport.js
 wwwroot\js\indexacao.js
 wwwroot\js\site.js
 wwwroot\js\verificacao.js

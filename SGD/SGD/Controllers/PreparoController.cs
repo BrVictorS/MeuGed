@@ -34,13 +34,42 @@ namespace SGD.Controllers
             return View(viewModel);
         }
 
+        public IActionResult ImpressaoEtiqueta()
+        {
+            List<EtiquetaCodBarrasDto> etq = new List<EtiquetaCodBarrasDto>();
+
+            // Usando 'for' para ficar mais limpo, mas o while também funcionaria
+            for (int i = 1; i <= 126; i++)
+            {
+                etq.Add(new EtiquetaCodBarrasDto()
+                {
+                    // "D6" formata o inteiro com 6 dígitos, preenchendo com zeros à esquerda.
+                    // Ex: 1 vira "000001", 126 vira "000126".
+                    // O formato ITF EXIGE quantidade par de números.
+                    CodigoBarras = i.ToString("D6")
+                });
+            }
+
+            return View("ImpressaoEtiqueta", etq);
+        }
 
         [HttpPost]
         public async Task<IActionResult> SalvarPreparoAsync(string jsonLotes)
         {
             var lista = JsonSerializer.Deserialize<List<LoteUsuarioDto>>(jsonLotes);
 
-            // processa a lista
+            //new List<LoteUsuarioDto> ();
+
+
+           /* int indx = 5;
+
+            while (indx <= 1000)
+            {
+                lista.Add(new LoteUsuarioDto() { IdUsuario=1,NumeroLote=indx.ToString().PadLeft(6,'0')});
+
+                indx++;
+            }
+*/
 
             foreach (var item in lista)
             {

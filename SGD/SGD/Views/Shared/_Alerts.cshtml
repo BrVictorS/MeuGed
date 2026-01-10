@@ -1,22 +1,66 @@
-﻿@{
-    string errmsg =  TempData["erro"] as string;
-    string okmsg = TempData["ok"] as string;
+﻿<div>
+@{
+    string errmsg = TempData["erro"] as string; string okmsg = TempData["ok"] as string;
 }
-
 @if (!string.IsNullOrEmpty(errmsg))
 {
-    <div class="alert alert-danger">@errmsg</div>
-    <input id="eherro" type="hidden" value=@errmsg />
-    
+        <div class="animate-slide-in">
+            <div class="bg-red-50 border-l-4 border-red-500 rounded-lg shadow-lg p-4 flex items-start gap-3">
+                <div class="flex-shrink-0">
+                    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-sm font-semibold text-red-800 mb-1">Erro</h3>
+                    <p class="text-sm text-red-700">@errmsg</p>
+                </div>
+                
+                <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-red-400 hover:text-red-600 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <input id="eherro" type="hidden" value="@errmsg">
 }
 else if (!string.IsNullOrEmpty(okmsg))
-{    
-    <div class="alert alert-success">@okmsg</div>
+{
+        <div class="animate-slide-in">
+            <div class="bg-green-50 border-l-4 border-green-500 rounded-lg shadow-lg p-4 flex items-start gap-3">
+                <div class="flex-shrink-0">
+                    <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-sm font-semibold text-green-800 mb-1">Sucesso</h3>
+                    <p class="text-sm text-green-700">@okmsg</p>
+                </div><button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
 }
-
 @{
-    TempData["ok"] = null;
-    TempData["erro"] = null;
+    TempData["ok"] = null; TempData["erro"] = null;
 }
+</div>
 
-
+<script>
+    // Auto-dismiss após 5 segundos
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.animate-slide-in');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.3s, transform 0.3s';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-100%)';
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+        });
+    });
+</script>

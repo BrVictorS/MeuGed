@@ -1,43 +1,101 @@
 ﻿@model ICollection<ProjetoModel>
 
-<div class="btn-group" style="padding-bottom:10px">
-    <button id="btnprojeto" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Projeto
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        @foreach (var projeto in Model)
-        {
-            <li><a class="dropdown-item" data-id="@projeto.Id" onclick="selecionarProjeto()">@projeto.Nome</a></li>
-        }
-    </ul>
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-4xl text-center mb-10">
+        <h2 class="text-3xl font-extrabold text-gray-900">
+            Selecione o Projeto
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+            Escolha o ambiente de trabalho que deseja acessar neste momento.
+        </p>
+    </div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-6xl px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            @foreach (var projeto in Model)
+            {
+                <div onclick="selecionarProjeto(this)"
+                     data-id="@projeto.Id"
+                     data-nome="@projeto.Nome"
+                     class="group bg-white overflow-hidden shadow rounded-lg border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-blue-400">
+
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <span class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    @(projeto.Nome?.Length > 0 ? projeto.Nome.Substring(0, 1).ToUpper() : "?")
+                                </span>
+                            </div>
+
+                            <div class="ml-4">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900 group-hover:text-blue-600">
+                                    @projeto.Nome
+                                </h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Ativo
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-500 line-clamp-2">
+                                Clique para carregar o ambiente e visualizar os documentos e dados deste projeto.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 px-5 py-3 border-t border-gray-100 group-hover:bg-blue-50 transition-colors">
+                        <div class="text-sm text-blue-700 font-medium flex justify-between items-center">
+                            <span>Acessar Painel</span>
+                            <svg class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<div id="loading-overlay" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
 </div>
 
 <script>
-    function selecionarProjeto() {
-        var textoSelecionado = event.target.innerText;
-        var projetoSelecionado = event.target.dataset.id
-        var botao = document.getElementById('btnprojeto');                
-        botao.innerText = textoSelecionado;        
+    function selecionarProjeto(elemento) {
+        var projetoId = elemento.dataset.id;
+        var projetoNome = elemento.dataset.nome;
+
+        // Feedback visual imediato (Loading)
+        document.getElementById('loading-overlay').classList.remove('hidden');
 
         fetch('/Home/DefineProjeto', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(projetoSelecionado)
+            body: JSON.stringify(projetoId)
         })
-            .then(response => {
-                if (response.redirected) {
-                    // Redireciona o navegador manualmente
-                    window.location.href = response.url;
-                } else {
-                    return response.text();
-                }
-            })
-            .then(data => {
-                console.log("Resposta:", data);
-            })
-            .catch(error => console.error('Erro:', error));
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                return response.text();
+            }
+        })
+        .then(data => {
+            // Caso não redirecione, você pode tratar o erro aqui
+            // console.log(data);
+            // document.getElementById('loading-overlay').classList.add('hidden'); // Se der erro, esconde o loading
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            document.getElementById('loading-overlay').classList.add('hidden');
+            alert("Erro ao selecionar projeto.");
+        });
     }
-    
-
-
 </script>

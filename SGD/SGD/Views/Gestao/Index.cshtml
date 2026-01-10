@@ -1,39 +1,55 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+<div class="container mx-auto px-4 mt-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
 
+        <div class="w-full max-w-[18rem] bg-white rounded-lg shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+            <div class="h-48 overflow-hidden bg-gray-100">
+                <img src="@Url.Content("~/Recursos/tralalelo.png")"
+                     class="w-full h-full object-cover"
+                     alt="Imagem Tralalelo">
+            </div>
 
-
-
-<div class="container text-center">
-    <div class="row">
-        <div class="col">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body shadow-lg">
-                    <img src="@Url.Content("~/Recursos/tralalelo.png")" class="card-img-top" alt="Imagem">
-
-                    <h5 class="card-title">Receber Lote</h5>
-                    <a class="btn btn-primary" asp-area="" asp-controller="Gestao" asp-action="ReceberLote">Acessar</a>
-                </div>
+            <div class="p-6 text-center">
+                <h5 class="text-xl font-bold text-gray-800 mb-4">Receber Lote</h5>
+                <a asp-area="" asp-controller="Gestao" asp-action="ReceberLote"
+                   class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Acessar
+                </a>
             </div>
         </div>
-        <div class="col">
-            <div class="card shadow-lg" style="width: 18rem;">
-                <div class="card-body">
-                    <img src="@Url.Content("~/Recursos/sahur.jpg")" class="card-img-top" alt="Imagem">
 
-                    <h5 class="card-title">Receber Lote</h5>
-                    <a class="btn btn-primary" asp-area="" asp-controller="TipoDocumento" asp-action="Index">Gestão Documental</a>
-                </div>
+        <div class="w-full max-w-[18rem] bg-white rounded-lg shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+            <div class="h-48 overflow-hidden bg-gray-100">
+                <img src="@Url.Content("~/Recursos/sahur.jpg")"
+                     class="w-full h-full object-cover"
+                     alt="Imagem Sahur">
+            </div>
+
+            <div class="p-6 text-center">
+                <h5 class="text-xl font-bold text-gray-800 mb-4">Receber Lote</h5>
+                <a asp-area="" asp-controller="TipoDocumento" asp-action="Index"
+                   class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Gestão Documental
+                </a>
             </div>
         </div>
-        <div class="col">
-            <div class="card shadow-lg" style="width: 18rem;">
-                <div class="card-body">
-                    <img src="@Url.Content("~/Recursos/caputinha.jpg")" class="card-img-top" alt="Imagem">
-                    <h5 class="card-title">Receber Lote</h5>
-                    <a class="btn btn-primary" asp-area="" asp-controller="Gestao" asp-action="ReceberLote">Acessar</a>
-                </div>
+
+        <div class="w-full max-w-[18rem] bg-white rounded-lg shadow-xl overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+            <div class="h-48 overflow-hidden bg-gray-100">
+                <img src="@Url.Content("~/Recursos/caputinha.jpg")"
+                     class="w-full h-full object-cover"
+                     alt="Imagem Caputinha">
+            </div>
+
+            <div class="p-6 text-center">
+                <h5 class="text-xl font-bold text-gray-800 mb-4">Receber Lote</h5>
+                <a asp-area="" asp-controller="Gestao" asp-action="ReceberLote"
+                   class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Acessar
+                </a>
             </div>
         </div>
+
     </div>
 </div>
