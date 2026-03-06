@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\services\\barcode\\barcodeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\barcode\\barcodeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\views\\preparo\\impressaoetiqueta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\views\\preparo\\impressaoetiqueta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\controllers\\verifycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\controllers\\verifycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\services\\verify\\verifyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\verify\\verifyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\services\\fluxo\\fluxoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\fluxo\\fluxoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\services\\autenticacao\\autenticacaoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\autenticacao\\autenticacaoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|c:\\users\\victor\\documents\\github\\meuged\\sgd\\sgd\\services\\autenticacao\\iautenticacaointerface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{664B9D14-975E-404F-9AAB-F2B35297C12B}|SGD\\SGD.csproj|solutionrelative:sgd\\services\\autenticacao\\iautenticacaointerface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,42 +42,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BarcodeService.cs",
-              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Barcode\\BarcodeService.cs",
-              "RelativeDocumentMoniker": "SGD\\Services\\Barcode\\BarcodeService.cs",
-              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Barcode\\BarcodeService.cs",
-              "RelativeToolTip": "SGD\\Services\\Barcode\\BarcodeService.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAewCkAAAASAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "VerifyService.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Verify\\VerifyService.cs",
+              "RelativeDocumentMoniker": "SGD\\Services\\Verify\\VerifyService.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Verify\\VerifyService.cs",
+              "RelativeToolTip": "SGD\\Services\\Verify\\VerifyService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T22:17:26.665Z",
+              "WhenOpened": "2026-01-15T12:25:21.767Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "VerifyController.cs",
-              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Controllers\\VerifyController.cs",
-              "RelativeDocumentMoniker": "SGD\\Controllers\\VerifyController.cs",
-              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Controllers\\VerifyController.cs",
-              "RelativeToolTip": "SGD\\Controllers\\VerifyController.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAB0AAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T19:53:43.948Z",
+              "DocumentIndex": 0,
+              "Title": "ImpressaoEtiqueta.cshtml",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Views\\Preparo\\ImpressaoEtiqueta.cshtml",
+              "RelativeDocumentMoniker": "SGD\\Views\\Preparo\\ImpressaoEtiqueta.cshtml",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Views\\Preparo\\ImpressaoEtiqueta.cshtml",
+              "RelativeToolTip": "SGD\\Views\\Preparo\\ImpressaoEtiqueta.cshtml",
+              "ViewState": "AgIAACYAAAAAAAAAAAAAAIwAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-13T19:44:56.899Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "FluxoService.cs",
-              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Fluxo\\FluxoService.cs",
-              "RelativeDocumentMoniker": "SGD\\Services\\Fluxo\\FluxoService.cs",
-              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Fluxo\\FluxoService.cs",
-              "RelativeToolTip": "SGD\\Services\\Fluxo\\FluxoService.cs",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAcwKMAAAAfAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Program.cs",
+              "RelativeDocumentMoniker": "SGD\\Program.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Program.cs",
+              "RelativeToolTip": "SGD\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T18:34:58.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-10T20:44:42.176Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IAutenticacaoInterface.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Autenticacao\\IAutenticacaoInterface.cs",
+              "RelativeDocumentMoniker": "SGD\\Services\\Autenticacao\\IAutenticacaoInterface.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Autenticacao\\IAutenticacaoInterface.cs",
+              "RelativeToolTip": "SGD\\Services\\Autenticacao\\IAutenticacaoInterface.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T19:49:27.847Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AutenticacaoService.cs",
+              "DocumentMoniker": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Autenticacao\\AutenticacaoService.cs",
+              "RelativeDocumentMoniker": "SGD\\Services\\Autenticacao\\AutenticacaoService.cs",
+              "ToolTip": "C:\\Users\\victor\\Documents\\GitHub\\MeuGed\\SGD\\SGD\\Services\\Autenticacao\\AutenticacaoService.cs",
+              "RelativeToolTip": "SGD\\Services\\Autenticacao\\AutenticacaoService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAgAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T19:49:17.645Z"
             }
           ]
         }

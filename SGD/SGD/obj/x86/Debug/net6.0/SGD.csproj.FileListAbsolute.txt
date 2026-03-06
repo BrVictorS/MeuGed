@@ -310,11 +310,9 @@ C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.E
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.Identity.Client.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
@@ -332,7 +330,6 @@ C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.IO.P
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Runtime.Caching.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Security.Permissions.dll
-C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Text.Json.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Threading.Channels.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Threading.RateLimiting.dll
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\bin\x86\Debug\net6.0\System.Windows.Extensions.dll
@@ -414,3 +411,4 @@ C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\obj\x86\Debug\net6.0\refint\SGD.
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\obj\x86\Debug\net6.0\SGD.pdb
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\obj\x86\Debug\net6.0\SGD.genruntimeconfig.cache
 C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\obj\x86\Debug\net6.0\ref\SGD.dll
+C:\Users\victor\Documents\GitHub\MeuGed\SGD\SGD\obj\x86\Debug\net6.0\swae.build.ex.cache

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GedDbApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a66bb9cfdc9d2c6b10941db099b69ccb01eae528")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae4a154d4f5f91c8fa3fb43187c062be421e2ba2")]
 [assembly: System.Reflection.AssemblyProductAttribute("GedDbApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GedDbApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
